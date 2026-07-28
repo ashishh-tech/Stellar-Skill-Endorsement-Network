@@ -1,0 +1,42 @@
+name: Deploy - Stellar Testnet
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    name: Deploy Contracts & Web Application
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Install Stellar CLI
+        run: |
+          cargo install --locked stellar-cli --features opt
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Build Soroban Contracts
+        run: cargo build --target wasm32-unknown-unknown --release
+
+      - name: Deploy to Stellar Testnet
+        env:
+          STELLAR_SECRET_KEY: ${{ secrets.STELLAR_SECRET_KEY }}
+        run: |
+          bash scripts/deploy.sh testnet
+
+      - name: Build & Export Next.js App
+        run: npm run build
