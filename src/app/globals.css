@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@layer base {
+  :root {
+    --color-stellar-500: #5c7cfa;
+    --color-stellar-600: #4c6ef5;
+    --color-accent-orange: #ff6b35;
+    --color-surface-0: #0a0a0f;
+    --color-surface-1: #12121a;
+    --color-surface-2: #1a1a25;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-surface-0 text-gray-100 font-sans antialiased;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    @apply bg-stellar-500/30 text-white;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-surface-2/60 backdrop-blur-xl border border-white/[0.06] rounded-2xl;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.03),
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300;
+  }
+
+  .glass-card-hover:hover {
+    @apply border-stellar-500/20;
+    box-shadow:
+      0 0 0 1px rgba(92, 124, 250, 0.1),
+      0 12px 40px rgba(0, 0, 0, 0.5),
+      0 0 60px rgba(92, 124, 250, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-stellar-500 to-stellar-600 text-white font-semibold
+           px-6 py-3 rounded-xl transition-all duration-300
+           hover:shadow-lg hover:shadow-stellar-500/25 hover:scale-[1.02]
+           active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed
+           disabled:hover:scale-100 disabled:hover:shadow-none;
+  }
+
+  .btn-secondary {
+    @apply bg-surface-3 text-gray-200 font-medium
+           px-5 py-2.5 rounded-xl border border-white/[0.08] transition-all duration-300
+           hover:bg-surface-4 hover:border-white/[0.12] hover:text-white
+           active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply text-gray-400 font-medium px-4 py-2 rounded-lg transition-all duration-200
+           hover:text-white hover:bg-white/[0.05];
+  }
+
+  .input-field {
+    @apply w-full bg-surface-1 border border-white/[0.08] rounded-xl px-4 py-3
+           text-gray-100 placeholder-gray-500 transition-all duration-200
+           focus:outline-none focus:border-stellar-500/50 focus:ring-1 focus:ring-stellar-500/20
+           focus:bg-surface-2;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium
+           border transition-colors duration-200;
+  }
+
+  .badge-stellar {
+    @apply badge bg-stellar-500/10 text-stellar-400 border-stellar-500/20;
+  }
+
+  .badge-success {
+    @apply badge bg-emerald-500/10 text-emerald-400 border-emerald-500/20;
+  }
+
+  .badge-warning {
+    @apply badge bg-amber-500/10 text-amber-400 border-amber-500/20;
+  }
+
+  .badge-danger {
+    @apply badge bg-rose-500/10 text-rose-400 border-rose-500/20;
+  }
+
+  .section-title {
+    @apply text-2xl font-bold text-white tracking-tight;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-stellar-400 via-accent-orange to-accent-amber
+           bg-clip-text text-transparent;
+  }
+
+  .nav-link {
+    @apply text-gray-400 hover:text-white transition-colors duration-200 text-sm font-medium
+           px-3 py-2 rounded-lg hover:bg-white/[0.05];
+  }
+
+  .nav-link-active {
+    @apply text-white bg-white/[0.08];
+  }
+
+  .stat-card {
+    @apply glass-card p-6;
+  }
+
+  .tx-status-pending {
+    @apply text-amber-400;
+  }
+
+  .tx-status-processing {
+    @apply text-stellar-400 animate-pulse;
+  }
+
+  .tx-status-confirmed {
+    @apply text-emerald-400;
+  }
+
+  .tx-status-failed {
+    @apply text-rose-400;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+  .glow-stellar {
+    box-shadow: 0 0 40px rgba(92, 124, 250, 0.15);
+  }
+
+  .glow-orange {
+    box-shadow: 0 0 40px rgba(255, 107, 53, 0.15);
+  }
+}
