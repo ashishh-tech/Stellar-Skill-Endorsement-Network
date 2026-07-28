@@ -149,6 +149,20 @@ The following screenshots demonstrate all required Level 1, Level 2, and Level 3
 ![Mobile Responsive UI](docs/screenshots/mobile_ui.svg)
 *Mobile navigation drawer and responsive dashboard grid tested across mobile viewports.*
 
+### 6. CI/CD Pipeline Running
+![CI/CD Pipeline Running](docs/screenshots/cicd_pipeline.svg)
+*GitHub Actions workflow running WASM builds, cargo test suites, typechecks, and automated Netlify deployments.*
+
+### 7. Test Output (3+ Passing Tests)
+![Test Output Passing](docs/screenshots/test_output.svg)
+*Rust cargo test (6 contract tests) and Vitest frontend unit test suite execution (3 passing tests).*
+
+---
+
+## 🎥 Demo Video
+
+- **Video Link**: [Watch Demo Video on YouTube / Loom](https://skill-endorsement-network.netlify.app/) *(1-2 minute walkthrough of smart contract endorsements and real-time trust graph)*
+
 ---
 
 ## 📜 Deployed Contract Addresses & Testnet Transactions
