@@ -1,0 +1,18 @@
+[package]
+name = "endorsement_engine"
+version = "1.0.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+doctest = false
+
+[dependencies]
+soroban-sdk = { workspace = true }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true, features = ["testutils"] }
+profile_registry = { path = "../profile_registry" }
+
+[features]
+testutils = ["soroban-sdk/testutils"]
