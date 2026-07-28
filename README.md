@@ -6,6 +6,9 @@
 [![Stellar Soroban](https://img.shields.io/badge/Stellar-Soroban%20v22-5c7cfa?logo=stellar)](https://soroban.stellar.org)
 [![Next.js 15](https://img.shields.io/badge/Next.js-15%20App%20Router-black?logo=next.js)](https://nextjs.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/skill-endorsement-network/deploy-status)](https://skill-endorsement-network.netlify.app/)
+
+> 🌐 **Live Demo**: [https://skill-endorsement-network.netlify.app/](https://skill-endorsement-network.netlify.app/)
 
 ---
 

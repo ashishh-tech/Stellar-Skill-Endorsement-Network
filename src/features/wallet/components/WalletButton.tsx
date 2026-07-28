@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useWalletStore } from '../store';
 import { connectWallet, formatAddress, WALLET_OPTIONS, type WalletId } from '../service';
-import { LogOut, Wallet, ChevronDown, ExternalLink, Copy, Check } from 'lucide-react';
+import { LogOut, Wallet, ChevronDown, ExternalLink, Copy, Check, X } from 'lucide-react';
 import { getExplorerAccountUrl } from '@/config/stellar';
 
 export function WalletButton() {
@@ -12,13 +12,17 @@ export function WalletButton() {
   const [showModal, setShowModal] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [connectingWalletId, setConnectingWalletId] = useState<string | null>(null);
 
   const handleConnect = async (walletId: WalletId) => {
     try {
+      setConnectingWalletId(walletId);
       await connectWallet(walletId);
       setShowModal(false);
     } catch {
       // Error is already set in the store
+    } finally {
+      setConnectingWalletId(null);
     }
   };
 
@@ -103,46 +107,104 @@ export function WalletButton() {
       {/* Wallet Selection Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => { setShowModal(false); clearError(); }} />
-          <div className="relative glass-card w-full max-w-md p-6 animate-fade-in max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold text-white mb-1">Connect Wallet</h2>
-            <p className="text-sm text-gray-400 mb-6">
-              Choose a Stellar wallet to connect to the Skill Endorsement Network.
-            </p>
-
-            {error && (
-              <div className="mb-4 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-sm">
-                {error}
-              </div>
-            )}
-
-            <div className="space-y-2">
-              {WALLET_OPTIONS.map((wallet) => (
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-md" onClick={() => { setShowModal(false); clearError(); }} />
+          <div className="relative w-full max-w-md animate-fade-in">
+            {/* Modal Card */}
+            <div className="glass-card p-0 overflow-hidden">
+              {/* Header */}
+              <div className="flex items-center justify-between px-6 pt-6 pb-4">
+                <div>
+                  <h2 className="text-xl font-bold text-white">Connect Wallet</h2>
+                  <p className="text-sm text-gray-400 mt-1">
+                    Choose a Stellar wallet to get started
+                  </p>
+                </div>
                 <button
-                  key={wallet.id}
-                  onClick={() => handleConnect(wallet.id)}
-                  disabled={isConnecting}
-                  className="w-full flex items-center gap-4 p-4 rounded-xl bg-surface-1/60 border border-white/[0.06]
-                             hover:border-stellar-500/30 hover:bg-surface-2/60 transition-all duration-200
-                             disabled:opacity-50 disabled:cursor-not-allowed group"
+                  onClick={() => { setShowModal(false); clearError(); }}
+                  className="w-8 h-8 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] flex items-center justify-center transition-colors"
                 >
-                  <span className="text-2xl">{wallet.icon}</span>
-                  <div className="text-left flex-1">
-                    <p className="text-sm font-semibold text-gray-200 group-hover:text-white">
-                      {wallet.name}
-                    </p>
-                    <p className="text-xs text-gray-500">{wallet.description}</p>
-                  </div>
+                  <X className="w-4 h-4 text-gray-400" />
                 </button>
-              ))}
-            </div>
+              </div>
 
-            <button
-              onClick={() => { setShowModal(false); clearError(); }}
-              className="mt-4 w-full btn-ghost text-center"
-            >
-              Cancel
-            </button>
+              {/* Error Message */}
+              {error && (
+                <div className="mx-6 mb-3 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-sm">
+                  {error}
+                </div>
+              )}
+
+              {/* Wallet Options */}
+              <div className="px-6 pb-6 space-y-2">
+                {WALLET_OPTIONS.map((wallet) => {
+                  const isThisConnecting = connectingWalletId === wallet.id;
+                  return (
+                    <button
+                      key={wallet.id}
+                      onClick={() => handleConnect(wallet.id)}
+                      disabled={isConnecting}
+                      className={`w-full flex items-center gap-4 p-4 rounded-xl border transition-all duration-200
+                                 disabled:opacity-50 disabled:cursor-not-allowed group relative
+                                 ${wallet.popular 
+                                   ? 'bg-stellar-500/[0.08] border-stellar-500/20 hover:border-stellar-500/40 hover:bg-stellar-500/[0.12]' 
+                                   : 'bg-surface-1/60 border-white/[0.06] hover:border-white/[0.12] hover:bg-surface-2/60'
+                                 }`}
+                    >
+                      {/* Wallet Icon */}
+                      <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-2xl flex-shrink-0
+                                      ${wallet.popular 
+                                        ? 'bg-stellar-500/20' 
+                                        : 'bg-white/[0.05]'
+                                      }`}>
+                        {wallet.icon}
+                      </div>
+
+                      {/* Wallet Info */}
+                      <div className="text-left flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm font-semibold text-gray-200 group-hover:text-white">
+                            {wallet.name}
+                          </p>
+                          {wallet.popular && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-stellar-500/20 text-stellar-400 border border-stellar-500/30">
+                              Popular
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-gray-500 mt-0.5 truncate">{wallet.description}</p>
+                      </div>
+
+                      {/* Loading / Arrow */}
+                      <div className="flex-shrink-0">
+                        {isThisConnecting ? (
+                          <div className="w-5 h-5 border-2 border-stellar-400/30 border-t-stellar-400 rounded-full animate-spin" />
+                        ) : (
+                          <svg className="w-4 h-4 text-gray-600 group-hover:text-gray-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                          </svg>
+                        )}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Footer */}
+              <div className="px-6 py-4 border-t border-white/[0.06] bg-white/[0.02]">
+                <p className="text-xs text-gray-500 text-center">
+                  Don&apos;t have a wallet?{' '}
+                  <a 
+                    href="https://freighter.app" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-stellar-400 hover:text-stellar-300 underline underline-offset-2"
+                  >
+                    Get Freighter
+                  </a>
+                  {' '}— the most popular Stellar wallet extension.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       )}

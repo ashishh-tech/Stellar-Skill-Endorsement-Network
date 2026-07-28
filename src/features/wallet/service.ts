@@ -10,46 +10,56 @@ export const WALLET_OPTIONS = [
     name: 'Freighter',
     icon: '🦊',
     description: 'Popular Stellar browser extension wallet',
+    popular: true,
   },
   {
     id: 'albedo',
     name: 'Albedo',
     icon: '🌟',
     description: 'Web-based Stellar wallet — no extension needed',
+    popular: false,
   },
   {
     id: 'xbull',
     name: 'xBull',
     icon: '🐂',
     description: 'Advanced Stellar wallet with multi-account support',
+    popular: false,
   },
   {
     id: 'hana',
     name: 'Hana Wallet',
     icon: '🌸',
     description: 'Modern Stellar & Soroban wallet',
+    popular: false,
   },
 ] as const;
 
 export type WalletId = (typeof WALLET_OPTIONS)[number]['id'];
 
 async function connectFreighter(): Promise<string> {
-  const freighterApi = typeof window !== 'undefined' ? window.freighterApi : undefined;
-  if (!freighterApi) {
-    throw new Error('Freighter extension not detected. Please install Freighter wallet.');
+  // Use the official @stellar/freighter-api package
+  const freighterApi = await import('@stellar/freighter-api').catch(() => {
+    throw new Error(
+      'Freighter wallet not detected. Please install the Freighter browser extension from https://freighter.app'
+    );
+  });
+
+  // Check if Freighter extension is installed
+  const connectionResult = await freighterApi.isConnected();
+  if (!connectionResult.isConnected) {
+    throw new Error(
+      'Freighter extension is not installed. Please install it from https://freighter.app and refresh the page.'
+    );
   }
 
-  const response = await freighterApi.requestAccess();
-  if (response.error) {
-    throw new Error(response.error);
+  // Request access - this triggers the Freighter popup dialog
+  const accessResult = await freighterApi.requestAccess();
+  if (accessResult.error) {
+    throw new Error(accessResult.error);
   }
 
-  const addressResponse = await freighterApi.getAddress();
-  if (addressResponse.error) {
-    throw new Error(addressResponse.error);
-  }
-
-  return addressResponse.address;
+  return accessResult.address;
 }
 
 async function connectAlbedo(): Promise<string> {
@@ -105,9 +115,7 @@ export async function signTransaction(xdr: string): Promise<string> {
   try {
     switch (walletType) {
       case 'freighter': {
-        const freighterApi = typeof window !== 'undefined' ? window.freighterApi : undefined;
-        if (!freighterApi) throw new Error('Freighter not available');
-
+        const freighterApi = await import('@stellar/freighter-api');
         const result = await freighterApi.signTransaction(xdr, {
           networkPassphrase: STELLAR_CONFIG.networkPassphrase,
         });

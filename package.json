@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@albedo-link/intent": "^0.13.0",
-    "@stellar/freighter-api": "^2.0.0",
+    "@stellar/freighter-api": "^6.0.1",
     "@stellar/stellar-sdk": "^13.1.0",
     "@tanstack/react-query": "^5.62.0",
     "lucide-react": "^0.468.0",
