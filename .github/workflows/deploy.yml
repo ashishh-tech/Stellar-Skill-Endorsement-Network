@@ -26,7 +26,9 @@ jobs:
         run: npm install
 
       - name: Install Stellar CLI
-        run: cargo install --locked stellar-cli --features opt || echo "Stellar CLI install skipped"
+        run: |
+          curl -fsSL https://github.com/stellar/stellar-cli/raw/main/install.sh | sh
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
       - name: Build Soroban Contracts
         run: cargo build --target wasm32-unknown-unknown --release
