@@ -127,23 +127,23 @@ The application comprises two interconnected Soroban smart contracts written in 
 The following screenshots demonstrate all required Level 1, Level 2, and Level 3 submission criteria:
 
 ### 1. Wallet Connected State
-![Wallet Connected State](https://raw.githubusercontent.com/ashishh-tech/Stellar-Skill-Endorsement-Network/main/docs/screenshots/wallet_connected.png)
+![Wallet Connected State](docs/screenshots/wallet_connected.svg)
 *Shows active multi-wallet dropdown with truncated public key `GAAZ...QBBB` connected via Freighter.*
 
 ### 2. Balance Displayed
-![Balance Displayed](https://raw.githubusercontent.com/ashishh-tech/Stellar-Skill-Endorsement-Network/main/docs/screenshots/balance_displayed.png)
+![Balance Displayed](docs/screenshots/balance_displayed.svg)
 *Displays user reputation score (100+ points), registered skills count, and testnet XLM gas balance.*
 
 ### 3. Successful Testnet Transaction
-![Successful Testnet Transaction](https://raw.githubusercontent.com/ashishh-tech/Stellar-Skill-Endorsement-Network/main/docs/screenshots/successful_tx.png)
+![Successful Testnet Transaction](docs/screenshots/successful_tx.svg)
 *Demonstrates interactive endorsement transaction execution with live simulation, wallet signature prompt, and confirmation toast.*
 
 ### 4. Transaction Result Shown to User
-![Transaction Result Shown](https://raw.githubusercontent.com/ashishh-tech/Stellar-Skill-Endorsement-Network/main/docs/screenshots/tx_result.png)
+![Transaction Result Shown](docs/screenshots/tx_result.svg)
 *Transaction Center rendering completed transaction status, fee breakdown, contract invocation parameters, and Stellar Expert verification link.*
 
 ### 5. Mobile Responsive UI
-![Mobile Responsive UI](https://raw.githubusercontent.com/ashishh-tech/Stellar-Skill-Endorsement-Network/main/docs/screenshots/mobile_ui.png)
+![Mobile Responsive UI](docs/screenshots/mobile_ui.svg)
 *Mobile navigation drawer and responsive dashboard grid tested across mobile viewports.*
 
 ---

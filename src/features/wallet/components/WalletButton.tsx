@@ -104,7 +104,7 @@ export function WalletButton() {
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => { setShowModal(false); clearError(); }} />
-          <div className="relative glass-card w-full max-w-md p-6 animate-fade-in">
+          <div className="relative glass-card w-full max-w-md p-6 animate-fade-in max-h-[90vh] overflow-y-auto">
             <h2 className="text-xl font-bold text-white mb-1">Connect Wallet</h2>
             <p className="text-sm text-gray-400 mb-6">
               Choose a Stellar wallet to connect to the Skill Endorsement Network.

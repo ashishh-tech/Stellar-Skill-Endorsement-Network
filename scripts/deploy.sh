@@ -18,59 +18,69 @@ PROFILE_WASM="target/wasm32-unknown-unknown/release/profile_registry.wasm"
 ENGINE_WASM="target/wasm32-unknown-unknown/release/endorsement_engine.wasm"
 
 # 2. Check stellar-cli installation
-if ! command -v stellar &> /dev/null; then
-    echo "⚠️ stellar-cli not found. Installing or using npx stellar-cli..."
+if command -v stellar &> /dev/null; then
+    STELLAR_CMD="stellar"
+elif command -v npx &> /dev/null; then
     STELLAR_CMD="npx --yes @stellar/cli"
 else
-    STELLAR_CMD="stellar"
+    echo "⚠️ Neither stellar nor npx found. Skipping contract deployment stage."
+    exit 0
 fi
 
-# 3. Optimize WASM binaries
+# 3. Check for deployment keypair
+if [ -z "$STELLAR_SECRET_KEY" ]; then
+    echo "⚠️ STELLAR_SECRET_KEY secret not found in environment."
+    echo "   To deploy to testnet, set STELLAR_SECRET_KEY or run locally with a funded secret key."
+    echo "✅ Contract build completed successfully."
+    exit 0
+fi
+
+# 4. Optimize WASM binaries
 echo "⚡ Optimizing WASM binaries..."
 if command -v stellar &> /dev/null; then
-    stellar contract optimize --wasm "$PROFILE_WASM"
-    stellar contract optimize --wasm "$ENGINE_WASM"
+    stellar contract optimize --wasm "$PROFILE_WASM" || true
+    stellar contract optimize --wasm "$ENGINE_WASM" || true
 fi
 
-# 4. Deploy Profile Registry Contract
+# 5. Deploy Profile Registry Contract
 echo "📦 Deploying profile_registry contract..."
 PROFILE_ID=$($STELLAR_CMD contract deploy \
     --wasm "$PROFILE_WASM" \
-    --source-account "${STELLAR_SECRET_KEY:-default}" \
+    --source-account "$STELLAR_SECRET_KEY" \
     --rpc-url "$RPC_URL" \
     --network-passphrase "$PASSPHRASE")
 
 echo "✅ ProfileRegistry deployed with ID: $PROFILE_ID"
 
-# 5. Deploy Endorsement Engine Contract
+# 6. Deploy Endorsement Engine Contract
 echo "📦 Deploying endorsement_engine contract..."
 ENGINE_ID=$($STELLAR_CMD contract deploy \
     --wasm "$ENGINE_WASM" \
-    --source-account "${STELLAR_SECRET_KEY:-default}" \
+    --source-account "$STELLAR_SECRET_KEY" \
     --rpc-url "$RPC_URL" \
     --network-passphrase "$PASSPHRASE")
 
 echo "✅ EndorsementEngine deployed with ID: $ENGINE_ID"
 
-# 6. Initialize Contracts & Inter-Contract Links
+# 7. Initialize Contracts & Inter-Contract Links
 echo "⚙️ Initializing contract state and inter-contract links..."
-ADMIN_ADDR=$($STELLAR_CMD keys address "${STELLAR_SECRET_KEY:-default}" 2>/dev/null || echo "GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWHF")
+ADMIN_ADDR=$($STELLAR_CMD keys address "$STELLAR_SECRET_KEY" 2>/dev/null || echo "GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWHF")
 
 $STELLAR_CMD contract invoke \
     --id "$PROFILE_ID" \
-    --source-account "${STELLAR_SECRET_KEY:-default}" \
+    --source-account "$STELLAR_SECRET_KEY" \
     --rpc-url "$RPC_URL" \
     --network-passphrase "$PASSPHRASE" \
     -- initialize --admin "$ADMIN_ADDR" || true
 
 $STELLAR_CMD contract invoke \
     --id "$ENGINE_ID" \
-    --source-account "${STELLAR_SECRET_KEY:-default}" \
+    --source-account "$STELLAR_SECRET_KEY" \
     --rpc-url "$RPC_URL" \
     --network-passphrase "$PASSPHRASE" \
     -- initialize --admin "$ADMIN_ADDR" --profile_registry "$PROFILE_ID" || true
 
-# 7. Output .env configuration
+# 8. Output .env configuration
 echo ""
 echo "=== 📝 Deployment Summary ==="
 echo "NEXT_PUBLIC_PROFILE_REGISTRY_CONTRACT_ID=$PROFILE_ID"

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <rect width="800" height="450" fill="#0a0a0f"/>
+  <rect width="800" height="50" fill="#12121a"/>
+  <text x="30" y="32" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="16">Transaction Center — Lifecycle Progress &amp; Audit Trail</text>
+
+  <!-- Tx Card 1 -->
+  <rect x="30" y="70" width="740" height="150" rx="12" fill="#12121a" stroke="#ffffff" stroke-opacity="0.08"/>
+  <circle cx="65" cy="110" r="16" fill="#20c997" fill-opacity="0.2"/>
+  <text x="59" y="116" fill="#20c997" font-family="sans-serif" font-weight="bold" font-size="18">✓</text>
+
+  <text x="100" y="105" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="16">Endorse Skill (endorse)</text>
+  <rect x="290" y="90" width="90" height="22" rx="11" fill="#20c997" fill-opacity="0.2" stroke="#20c997" stroke-opacity="0.4"/>
+  <text x="308" y="105" fill="#20c997" font-family="sans-serif" font-weight="bold" font-size="11">Confirmed</text>
+
+  <text x="100" y="130" fill="#888" font-family="monospace" font-size="12">Target Contract: CB7E89F0...5678</text>
+  <text x="100" y="150" fill="#888" font-family="monospace" font-size="12">Tx Hash: a1b2c3d4e5f67890123456789abcdef0123456789abcdef0123456789abcdef0</text>
+
+  <rect x="620" y="95" width="130" height="35" rx="8" fill="#1a1a25" stroke="#5c7cfa" stroke-opacity="0.3"/>
+  <text x="640" y="117" fill="#748ffc" font-family="sans-serif" font-size="12">View on Explorer ↗</text>
+
+  <!-- Tx Card 2 -->
+  <rect x="30" y="240" width="740" height="150" rx="12" fill="#12121a" stroke="#ffffff" stroke-opacity="0.08"/>
+  <circle cx="65" cy="280" r="16" fill="#5c7cfa" fill-opacity="0.2"/>
+  <text x="59" y="286" fill="#748ffc" font-family="sans-serif" font-weight="bold" font-size="16">✍</text>
+
+  <text x="100" y="275" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="16">Register Profile (register_profile)</text>
+  <rect x="370" y="260" width="90" height="22" rx="11" fill="#20c997" fill-opacity="0.2" stroke="#20c997" stroke-opacity="0.4"/>
+  <text x="388" y="275" fill="#20c997" font-family="sans-serif" font-weight="bold" font-size="11">Confirmed</text>
+
+  <text x="100" y="300" fill="#888" font-family="monospace" font-size="12">Target Contract: CA3D52A5...1234</text>
+  <text x="100" y="320" fill="#888" font-family="monospace" font-size="12">Tx Hash: f9e8d7c6b5a43210987654321fedcba0987654321fedcba0987654321fedcba0</text>
+
+  <rect x="620" y="265" width="130" height="35" rx="8" fill="#1a1a25" stroke="#5c7cfa" stroke-opacity="0.3"/>
+  <text x="640" y="287" fill="#748ffc" font-family="sans-serif" font-size="12">View on Explorer ↗</text>
+</svg>

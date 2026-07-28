@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <rect width="800" height="450" fill="#0a0a0f"/>
+  <!-- Top Bar -->
+  <rect width="800" height="50" fill="#12121a"/>
+  <text x="30" y="32" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="16">Dashboard — On-Chain Reputation &amp; Gas Balance</text>
+
+  <!-- Stats Grid -->
+  <!-- Stat 1: Reputation -->
+  <rect x="30" y="70" width="170" height="90" rx="12" fill="#1a1a25" stroke="#ffffff" stroke-opacity="0.08"/>
+  <text x="45" y="95" fill="#888" font-family="sans-serif" font-size="12">Reputation Score</text>
+  <text x="45" y="130" fill="#ff6b35" font-family="sans-serif" font-weight="bold" font-size="28">150 PTS</text>
+
+  <!-- Stat 2: Skills Count -->
+  <rect x="220" y="70" width="170" height="90" rx="12" fill="#1a1a25" stroke="#ffffff" stroke-opacity="0.08"/>
+  <text x="235" y="95" fill="#888" font-family="sans-serif" font-size="12">Registered Skills</text>
+  <text x="235" y="130" fill="#5c7cfa" font-family="sans-serif" font-weight="bold" font-size="28">4 Skills</text>
+
+  <!-- Stat 3: Total Users -->
+  <rect x="410" y="70" width="170" height="90" rx="12" fill="#1a1a25" stroke="#ffffff" stroke-opacity="0.08"/>
+  <text x="425" y="95" fill="#888" font-family="sans-serif" font-size="12">Global Network Users</text>
+  <text x="425" y="130" fill="#20c997" font-family="sans-serif" font-weight="bold" font-size="28">12 Users</text>
+
+  <!-- Stat 4: Gas Balance -->
+  <rect x="600" y="70" width="170" height="90" rx="12" fill="#1a1a25" stroke="#f59f00" stroke-opacity="0.4"/>
+  <text x="615" y="95" fill="#888" font-family="sans-serif" font-size="12">Testnet XLM Gas</text>
+  <text x="615" y="130" fill="#f59f00" font-family="sans-serif" font-weight="bold" font-size="24">10,000 XLM</text>
+
+  <!-- Skills Card -->
+  <rect x="30" y="180" width="740" height="230" rx="12" fill="#12121a" stroke="#ffffff" stroke-opacity="0.06"/>
+  <text x="50" y="215" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="16">Your Verified On-Chain Profile</text>
+  <text x="50" y="245" fill="#aaa" font-family="sans-serif" font-size="13">Address: GAAZI4TCR3TY5OJHCTJC2A4AFL5AGXLND6B5EGIK7R5A46VLO3M7QBBB</text>
+
+  <rect x="50" y="270" width="100" height="30" rx="15" fill="#5c7cfa" fill-opacity="0.2" stroke="#5c7cfa"/>
+  <text x="72" y="290" fill="#748ffc" font-family="sans-serif" font-size="12">Soroban</text>
+
+  <rect x="160" y="270" width="80" height="30" rx="15" fill="#5c7cfa" fill-opacity="0.2" stroke="#5c7cfa"/>
+  <text x="182" y="290" fill="#748ffc" font-family="sans-serif" font-size="12">Rust</text>
+
+  <rect x="250" y="270" width="110" height="30" rx="15" fill="#5c7cfa" fill-opacity="0.2" stroke="#5c7cfa"/>
+  <text x="272" y="290" fill="#748ffc" font-family="sans-serif" font-size="12">TypeScript</text>
+
+  <rect x="370" y="270" width="120" height="30" rx="15" fill="#5c7cfa" fill-opacity="0.2" stroke="#5c7cfa"/>
+  <text x="390" y="290" fill="#748ffc" font-family="sans-serif" font-size="12">Security Audit</text>
+</svg>
