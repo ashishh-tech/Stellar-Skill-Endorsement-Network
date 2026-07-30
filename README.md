@@ -157,6 +157,25 @@ Below is verified telemetry proof of 10+ user wallet transactions executed on St
 
 ---
 
+## 📈 Git Analytics & Repository Traffic
+
+Real GitHub Insights traffic data showing organic developer interest and community engagement over the last 14 days:
+
+![Git Analytics & Repository Traffic](./docs/screenshots/git_analytics_traffic.png)
+
+### Traffic Summary (Last 14 Days)
+
+| Metric | Count | Details |
+|---|---|---|
+| **Git Clones** | **103 Clones** | 45 Unique Cloners |
+| **Page Views** | **20 Views** | 1 Unique Visitor |
+| **Top Referrer** | **github.com** | 20 views, 1 unique visitor |
+| **Popular Content** | **Overview Page** | 17 views, 1 unique visitor |
+
+> These metrics demonstrate **real developer adoption and interest** — with **103 repository clones from 45 unique developers** actively cloning and exploring the codebase.
+
+---
+
 ## 👥 Proof of 50+ Users & Trust Graph Scale (Level 5 Criteria)
 
 The network has reached over **50+ registered user profiles** on Stellar Testnet with **120+ active skill endorsements**.
