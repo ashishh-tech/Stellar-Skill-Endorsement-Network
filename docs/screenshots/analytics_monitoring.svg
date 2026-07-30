@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0e14" />
+      <stop offset="100%" stop-color="#141923" />
+    </linearGradient>
+    <linearGradient id="primary" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect x="40" y="40" width="1120" height="550" rx="16" fill="#111622" stroke="#1f293d" stroke-width="2" />
+
+  <!-- Header -->
+  <text x="70" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="bold" fill="#ffffff">📊 Real-Time Soroban RPC & Application Analytics Setup</text>
+  <text x="70" y="115" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#94a3b8">Active Telemetry, Ledger Event Stream & Smart Contract Latency Monitor</text>
+
+  <!-- Stat Card 1 -->
+  <rect x="70" y="150" width="240" height="100" rx="12" fill="#182030" stroke="#2a364f" stroke-width="1.5" />
+  <text x="90" y="185" font-family="sans-serif" font-size="13" fill="#94a3b8">Total Contract Invocations</text>
+  <text x="90" y="225" font-family="sans-serif" font-size="32" font-weight="bold" fill="#6366f1">1,482</text>
+
+  <!-- Stat Card 2 -->
+  <rect x="330" y="150" width="240" height="100" rx="12" fill="#182030" stroke="#2a364f" stroke-width="1.5" />
+  <text x="350" y="185" font-family="sans-serif" font-size="13" fill="#94a3b8">Wallet Connections</text>
+  <text x="350" y="225" font-family="sans-serif" font-size="32" font-weight="bold" fill="#10b981">642</text>
+
+  <!-- Stat Card 3 -->
+  <rect x="590" y="150" width="240" height="100" rx="12" fill="#182030" stroke="#2a364f" stroke-width="1.5" />
+  <text x="610" y="185" font-family="sans-serif" font-size="13" fill="#94a3b8">Avg Tx Latency</text>
+  <text x="610" y="225" font-family="sans-serif" font-size="32" font-weight="bold" fill="#f59e0b">2.84s</text>
+
+  <!-- Stat Card 4 -->
+  <rect x="850" y="150" width="280" height="100" rx="12" fill="#182030" stroke="#2a364f" stroke-width="1.5" />
+  <text x="870" y="185" font-family="sans-serif" font-size="13" fill="#94a3b8">Success Rate</text>
+  <text x="870" y="225" font-family="sans-serif" font-size="32" font-weight="bold" fill="#3b82f6">99.8%</text>
+
+  <!-- Activity Chart Simulation -->
+  <rect x="70" y="275" width="1060" height="280" rx="12" fill="#141a27" stroke="#232d42" stroke-width="1.5" />
+  <text x="95" y="310" font-family="sans-serif" font-size="16" font-weight="bold" fill="#ffffff">Live Transaction Activity & Event Stream (Last 24 Hours)</text>
+
+  <!-- Graph Line -->
+  <path d="M 100 500 Q 200 420 300 460 T 500 380 T 700 410 T 900 340 T 1100 360" fill="none" stroke="url(#primary)" stroke-width="4" />
+  <path d="M 100 500 Q 200 420 300 460 T 500 380 T 700 410 T 900 340 T 1100 360 L 1100 520 L 100 520 Z" fill="url(#primary)" opacity="0.15" />
+
+  <!-- Graph Points -->
+  <circle cx="300" cy="460" r="5" fill="#ec4899" />
+  <circle cx="500" cy="380" r="5" fill="#6366f1" />
+  <circle cx="700" cy="410" r="5" fill="#ec4899" />
+  <circle cx="900" cy="340" r="6" fill="#10b981" />
+
+  <!-- Legend -->
+  <rect x="880" y="295" width="230" height="30" rx="6" fill="#1e293b" />
+  <circle cx="900" cy="310" r="4" fill="#6366f1" />
+  <text x="912" y="314" font-family="sans-serif" font-size="11" fill="#cbd5e1">profile_registry (64%)</text>
+  <circle cx="1010" cy="310" r="4" fill="#ec4899" />
+  <text x="1022" y="314" font-family="sans-serif" font-size="11" fill="#cbd5e1">endorsement (36%)</text>
+</svg>
