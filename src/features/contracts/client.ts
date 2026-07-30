@@ -36,6 +36,9 @@ export async function invokeContract({
     const account = await rpc.getAccount(caller);
 
     // 2. Build the transaction
+    if (!contractId || !StellarSdk.StrKey.isValidContract(contractId)) {
+      throw new Error('Contract ID is missing or invalid. Please configure NEXT_PUBLIC_PROFILE_REGISTRY_CONTRACT_ID and NEXT_PUBLIC_ENDORSEMENT_ENGINE_CONTRACT_ID.');
+    }
     const contract = new StellarSdk.Contract(contractId);
     const tx = new StellarSdk.TransactionBuilder(account, {
       fee: '100000', // 0.01 XLM max fee
@@ -137,6 +140,9 @@ export async function queryContract({
   args?: StellarSdk.xdr.ScVal[];
 }): Promise<StellarSdk.xdr.ScVal | null> {
   try {
+    if (!contractId || !StellarSdk.StrKey.isValidContract(contractId)) {
+      return null;
+    }
     const account = new StellarSdk.Account(
       'GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWHF',
       '0'

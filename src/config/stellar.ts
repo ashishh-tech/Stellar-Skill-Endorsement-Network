@@ -5,8 +5,8 @@ export const STELLAR_CONFIG = {
   explorerUrl: 'https://stellar.expert/explorer/testnet',
   friendbotUrl: 'https://friendbot.stellar.org',
   contracts: {
-    profileRegistry: process.env.NEXT_PUBLIC_PROFILE_REGISTRY_CONTRACT_ID || '',
-    endorsementEngine: process.env.NEXT_PUBLIC_ENDORSEMENT_ENGINE_CONTRACT_ID || '',
+    profileRegistry: process.env.NEXT_PUBLIC_PROFILE_REGISTRY_CONTRACT_ID || 'CAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQC526',
+    endorsementEngine: process.env.NEXT_PUBLIC_ENDORSEMENT_ENGINE_CONTRACT_ID || 'CABAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAFNSZ',
   },
 } as const;
 
