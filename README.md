@@ -10,7 +10,7 @@
 
 > 🌐 **Live Demo**: [https://skill-endorsement-network.netlify.app/](https://skill-endorsement-network.netlify.app/)  
 > 📊 **PPT / Pitch Deck**: [Skill Endorsement Network Pitch Deck (PDF / Slides)](https://skill-endorsement-network.netlify.app/pitch-deck.pdf)  
-> 📝 **User Onboarding & Feedback Form**: [Google Feedback Form](https://forms.google.com/example-skill-endorsement-feedback) | [Exported Responses Excel (CSV)](docs/user_feedback_responses.csv)
+> 📝 **User Onboarding & Feedback Form**: [Google Feedback Form](https://forms.gle/tLqCbDAVsmsDWbmW6) | [Exported Responses Excel Sheet](https://docs.google.com/spreadsheets/d/16mz1UmtkIGkGa4s_LCkHaot_ip1fVbT6wiL4dsBcrkw/edit?usp=sharing) | [Local Backup (CSV)](docs/user_feedback_responses.csv)
 
 ---
 
@@ -174,8 +174,8 @@ The network has reached over **50+ registered user profiles** on Stellar Testnet
 
 To gather structured community feedback, we created an onboarding & product feedback survey collecting wallet addresses, names, emails, and product ratings.
 
-- **Google Feedback Form**: [Fill Out User Survey](https://forms.google.com/example-skill-endorsement-feedback)
-- **Exported Excel Responses Sheet**: [`docs/user_feedback_responses.csv`](docs/user_feedback_responses.csv)
+- **Google Feedback Form**: [Fill Out User Onboarding Survey](https://forms.gle/tLqCbDAVsmsDWbmW6)
+- **Exported Excel Responses Sheet**: [View Live Google Spreadsheet](https://docs.google.com/spreadsheets/d/16mz1UmtkIGkGa4s_LCkHaot_ip1fVbT6wiL4dsBcrkw/edit?usp=sharing) | [`docs/user_feedback_responses.csv`](docs/user_feedback_responses.csv)
 
 ### Quantitative Feedback Summary
 - **Average Overall Satisfaction Rating**: **4.85 / 5.0**
@@ -200,25 +200,25 @@ Based on the collected user feedback responses, we implemented concrete technica
 ## 📋 Required Submission Screenshots
 
 ### 1. Wallet Connected State
-![Wallet Connected State](docs/screenshots/wallet_connected.svg)
+![Wallet Connected State](./docs/screenshots/wallet_connected.svg)
 
 ### 2. Balance & Reputation Displayed
-![Balance Displayed](docs/screenshots/balance_displayed.svg)
+![Balance Displayed](./docs/screenshots/balance_displayed.svg)
 
 ### 3. Successful Testnet Transaction
-![Successful Testnet Transaction](docs/screenshots/successful_tx.svg)
+![Successful Testnet Transaction](./docs/screenshots/successful_tx.svg)
 
 ### 4. Transaction Result Shown to User
-![Transaction Result Shown](docs/screenshots/tx_result.svg)
+![Transaction Result Shown](./docs/screenshots/tx_result.svg)
 
 ### 5. Mobile Responsive UI
-![Mobile Responsive UI](docs/screenshots/mobile_ui.svg)
+![Mobile Responsive UI](./docs/screenshots/mobile_ui.svg)
 
 ### 6. Analytics & Telemetry Setup
-![Analytics Monitoring](docs/screenshots/analytics_monitoring.svg)
+![Analytics Monitoring](./docs/screenshots/analytics_monitoring.svg)
 
 ### 7. CI/CD Pipeline & Test Output
-![CI/CD Pipeline Running](docs/screenshots/cicd_pipeline.svg)
+![CI/CD Pipeline Running](./docs/screenshots/cicd_pipeline.svg)
 
 ---
 
