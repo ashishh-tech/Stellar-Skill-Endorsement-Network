@@ -1,0 +1,41 @@
+export * from './wallet';
+export * from './contract';
+export * from './soroban';
+export {
+  register_profile,
+  registerProfile,
+  update_profile,
+  updateProfile,
+  get_profile,
+  getProfile,
+  has_profile,
+  hasProfile,
+  get_reputation,
+  getReputation,
+  add_skill,
+  addSkill,
+  get_skills,
+  getSkills,
+  get_skill,
+  getSkill,
+  record_endorsement,
+  recordEndorsement,
+  get_user_count,
+  getUserCount,
+  version as profileVersion,
+  getVersion,
+} from './profile';
+export {
+  endorse,
+  endorseSkill,
+  has_endorsement,
+  hasEndorsement,
+  get_endorsement,
+  getEndorsement,
+  get_total_endorsements,
+  getTotalEndorsements,
+  get_profile_registry,
+  getProfileRegistry,
+  version as endorsementVersion,
+  getEngineVersion,
+} from './endorsement';
