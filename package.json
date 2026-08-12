@@ -1,6 +1,7 @@
 {
   "name": "skill-endorsement-network",
   "version": "1.0.0",
+  "description": "A Sybil-Resistant, On-Chain Reputation Graph Powered by Stellar Soroban Smart Contracts",
   "private": true,
   "scripts": {
     "dev": "next dev",
