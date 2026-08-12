@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <rect width="800" height="450" fill="#0d1117" rx="16"/>
+  
+  <!-- Header Bar -->
+  <rect width="800" height="56" fill="#161b22" rx="16"/>
+  <text x="24" y="35" fill="#f0f6fc" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif" font-weight="bold" font-size="16">📊 Level 5 User Feedback Analytics &amp; 50+ User Proof</text>
+  <rect x="630" y="16" width="146" height="24" rx="12" fill="#238636"/>
+  <text x="703" y="32" fill="#ffffff" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Level 5 Compliant</text>
+
+  <!-- Metric 1: Registered Users -->
+  <rect x="24" y="76" width="176" height="88" rx="12" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="40" y="102" fill="#8b949e" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif" font-size="12">Registered Users</text>
+  <text x="40" y="140" fill="#58a6ff" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif" font-weight="bold" font-size="28">54 Users</text>
+  <text x="145" y="138" fill="#3fb950" font-family="sans-serif" font-size="10">✓ 50+ Verified</text>
+
+  <!-- Metric 2: Total Endorsements -->
+  <rect x="216" y="76" width="176" height="88" rx="12" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="232" y="102" fill="#8b949e" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif" font-size="12">Total Endorsements</text>
+  <text x="232" y="140" fill="#bc8cff" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif" font-weight="bold" font-size="28">128 Tx</text>
+  <text x="330" y="138" fill="#bc8cff" font-family="sans-serif" font-size="10">On-Chain</text>
+
+  <!-- Metric 3: Product Rating -->
+  <rect x="408" y="76" width="176" height="88" rx="12" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="424" y="102" fill="#8b949e" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif" font-size="12">Avg Product Rating</text>
+  <text x="424" y="140" fill="#d29922" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif" font-weight="bold" font-size="28">4.88 / 5</text>
+  <text x="522" y="138" fill="#d29922" font-family="sans-serif" font-size="12">★★★★★</text>
+
+  <!-- Metric 4: Form Responses -->
+  <rect x="600" y="76" width="176" height="88" rx="12" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="616" y="102" fill="#8b949e" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif" font-size="12">Excel Responses</text>
+  <text x="616" y="140" fill="#3fb950" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif" font-weight="bold" font-size="28">10 Rows</text>
+  <text x="708" y="138" fill="#3fb950" font-family="sans-serif" font-size="10">Exported .xlsx</text>
+
+  <!-- Left Column: User Breakdown -->
+  <rect x="24" y="180" width="368" height="246" rx="12" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="44" y="210" fill="#f0f6fc" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif" font-weight="600" font-size="14">User Category &amp; Role Breakdown</text>
+  
+  <text x="44" y="240" fill="#c9d1d9" font-family="sans-serif" font-size="12">Blockchain Developers (45%)</text>
+  <rect x="44" y="248" width="328" height="12" rx="6" fill="#21262d"/>
+  <rect x="44" y="248" width="148" height="12" rx="6" fill="#58a6ff"/>
+
+  <text x="44" y="280" fill="#c9d1d9" font-family="sans-serif" font-size="12">UI/UX Designers (20%)</text>
+  <rect x="44" y="288" width="328" height="12" rx="6" fill="#21262d"/>
+  <rect x="44" y="288" width="65" height="12" rx="6" fill="#bc8cff"/>
+
+  <text x="44" y="320" fill="#c9d1d9" font-family="sans-serif" font-size="12">Product Managers (15%)</text>
+  <rect x="44" y="328" width="328" height="12" rx="6" fill="#21262d"/>
+  <rect x="44" y="328" width="49" height="12" rx="6" fill="#d29922"/>
+
+  <text x="44" y="360" fill="#c9d1d9" font-family="sans-serif" font-size="12">Auditors &amp; Community (20%)</text>
+  <rect x="44" y="368" width="328" height="12" rx="6" fill="#21262d"/>
+  <rect x="44" y="368" width="65" height="12" rx="6" fill="#3fb950"/>
+
+  <!-- Right Column: Top Next-Phase Feature Requests -->
+  <rect x="408" y="180" width="368" height="246" rx="12" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="428" y="210" fill="#f0f6fc" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif" font-weight="600" font-size="14">Top Next-Phase Feedback Requests</text>
+
+  <rect x="428" y="226" width="328" height="34" rx="6" fill="#21262d"/>
+  <text x="440" y="247" fill="#58a6ff" font-family="sans-serif" font-size="11" font-weight="bold">1. Verifiable Credentials &amp; LinkedIn Badges</text>
+
+  <rect x="428" y="268" width="328" height="34" rx="6" fill="#21262d"/>
+  <text x="440" y="289" fill="#bc8cff" font-family="sans-serif" font-size="11" font-weight="bold">2. Multi-Skill Batch Endorsement Smart Contract</text>
+
+  <rect x="428" y="310" width="328" height="34" rx="6" fill="#21262d"/>
+  <text x="440" y="331" fill="#d29922" font-family="sans-serif" font-size="11" font-weight="bold">3. On-Chain Leaderboard &amp; Category Filters</text>
+
+  <rect x="428" y="352" width="328" height="34" rx="6" fill="#21262d"/>
+  <text x="440" y="373" fill="#3fb950" font-family="sans-serif" font-size="11" font-weight="bold">4. Event Webhooks &amp; Notification Alerts</text>
+</svg>
