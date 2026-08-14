@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import { useContractEvents, getEventLabel } from '@/features/events/hooks/useEvents';
-import { Activity, Filter, RefreshCw, ExternalLink, Zap } from 'lucide-react';
+import { Activity, Filter, RefreshCw, ExternalLink, Zap, Award, User, Star } from 'lucide-react';
 import { getExplorerContractUrl, truncateAddress } from '@/config/stellar';
+import { Logo } from '@/components/Logo';
 
 export default function ActivityPage() {
   const { events, isPolling, refresh } = useContractEvents();
@@ -50,7 +51,7 @@ export default function ActivityPage() {
       {/* Filter Tabs */}
       <div className="flex items-center gap-2 mb-6 border-b border-white/[0.06] pb-3 overflow-x-auto">
         <Filter className="w-4 h-4 text-gray-500 shrink-0 mr-1" />
-        <FilterTab active={filter === 'all'} onClick={() => setFilter('all')} label="All Events" />
+        <FilterTab active={filter === 'all'} onClick={() => setFilter('all')} label="All Events" count={events.length} />
         <FilterTab active={filter === 'endorse'} onClick={() => setFilter('endorse')} label="Endorsements" />
         <FilterTab active={filter === 'profile'} onClick={() => setFilter('profile')} label="Profiles" />
         <FilterTab active={filter === 'skill'} onClick={() => setFilter('skill')} label="Skills" />
@@ -59,22 +60,33 @@ export default function ActivityPage() {
       {/* Events List */}
       <div className="space-y-3">
         {filteredEvents.length === 0 ? (
-          <div className="glass-card p-12 text-center">
-            <Zap className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+          <div className="glass-card p-16 text-center">
+            <div className="relative w-20 h-20 mx-auto mb-4">
+              <div className="absolute inset-0 rounded-full bg-stellar-500/10 animate-pulse" />
+              <div className="absolute inset-2 rounded-full bg-surface-1 flex items-center justify-center">
+                <div className="animate-float">
+                  <Logo size={36} />
+                </div>
+              </div>
+            </div>
             <h3 className="text-lg font-semibold text-gray-300 mb-1">No Events Found</h3>
             <p className="text-sm text-gray-500 max-w-sm mx-auto">
               Events stream automatically as transactions execute on Stellar Testnet. Submit a profile or endorsement to see live logs!
             </p>
           </div>
         ) : (
-          filteredEvents.map((event) => (
+          filteredEvents.map((event, index) => (
             <div
               key={event.id}
               className="glass-card-hover p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-fade-in"
             >
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-stellar-500/10 border border-stellar-500/20 flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
-                  <Activity className="w-5 h-5 text-stellar-400" />
+                {/* Timeline connector */}
+                <div className="relative flex flex-col items-center">
+                  <EventTypeIcon topic={event.topic} />
+                  {index < filteredEvents.length - 1 && (
+                    <div className="w-px h-6 bg-gradient-to-b from-white/10 to-transparent mt-1 hidden sm:block" />
+                  )}
                 </div>
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
@@ -113,17 +125,52 @@ export default function ActivityPage() {
   );
 }
 
-function FilterTab({ active, onClick, label }: { active: boolean; onClick: () => void; label: string }) {
+/* ----------- Event Type Icon ----------- */
+function EventTypeIcon({ topic }: { topic: string[] }) {
+  const topicStr = topic.join(' ').toLowerCase();
+  if (topicStr.includes('endorse')) {
+    return (
+      <div className="w-10 h-10 rounded-xl bg-accent-orange/10 border border-accent-orange/20 flex items-center justify-center shrink-0">
+        <Award className="w-5 h-5 text-accent-orange" />
+      </div>
+    );
+  }
+  if (topicStr.includes('profile') || topicStr.includes('register')) {
+    return (
+      <div className="w-10 h-10 rounded-xl bg-stellar-500/10 border border-stellar-500/20 flex items-center justify-center shrink-0">
+        <User className="w-5 h-5 text-stellar-400" />
+      </div>
+    );
+  }
+  if (topicStr.includes('skill')) {
+    return (
+      <div className="w-10 h-10 rounded-xl bg-accent-emerald/10 border border-accent-emerald/20 flex items-center justify-center shrink-0">
+        <Star className="w-5 h-5 text-accent-emerald" />
+      </div>
+    );
+  }
+  return (
+    <div className="w-10 h-10 rounded-xl bg-stellar-500/10 border border-stellar-500/20 flex items-center justify-center shrink-0">
+      <Zap className="w-5 h-5 text-stellar-400" />
+    </div>
+  );
+}
+
+/* ----------- Filter Tab ----------- */
+function FilterTab({ active, onClick, label, count }: { active: boolean; onClick: () => void; label: string; count?: number }) {
   return (
     <button
       onClick={onClick}
-      className={`px-4 py-2 rounded-xl text-xs font-medium transition-all whitespace-nowrap ${
+      className={`px-4 py-2 rounded-xl text-xs font-medium transition-all whitespace-nowrap flex items-center gap-1.5 ${
         active
           ? 'bg-stellar-500/20 text-stellar-300 border border-stellar-500/30'
           : 'text-gray-400 hover:text-white hover:bg-white/[0.05]'
       }`}
     >
       {label}
+      {count !== undefined && active && (
+        <span className="bg-stellar-500/30 text-stellar-300 px-1.5 py-0.5 rounded-md text-[10px] font-bold">{count}</span>
+      )}
     </button>
   );
 }

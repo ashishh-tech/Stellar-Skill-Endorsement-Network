@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   description:
     'A trust-weighted, on-chain reputation graph for skill endorsements powered by Stellar Soroban smart contracts.',
   keywords: ['Stellar', 'Soroban', 'blockchain', 'skill endorsement', 'reputation', 'web3'],
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

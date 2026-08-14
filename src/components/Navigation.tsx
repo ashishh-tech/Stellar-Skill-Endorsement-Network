@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { WalletButton } from '@/features/wallet/components/WalletButton';
+import { Logo } from '@/components/Logo';
 import {
   LayoutDashboard,
   Activity,
@@ -12,7 +13,6 @@ import {
   Settings,
   Menu,
   X,
-  Sparkles,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -33,8 +33,8 @@ export function Navigation() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-stellar-500 to-accent-orange flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
+            <div className="transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[8deg]">
+              <Logo size={36} />
             </div>
             <span className="text-lg font-bold text-white hidden sm:block">
               Skill<span className="text-stellar-400">Net</span>

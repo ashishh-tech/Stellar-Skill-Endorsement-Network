@@ -25,7 +25,10 @@ import {
   Star,
   CheckCircle,
   AlertCircle,
+  Wallet,
+  Shield,
 } from 'lucide-react';
+import { Logo } from '@/components/Logo';
 
 interface ProfileData {
   owner: string;
@@ -147,11 +150,33 @@ export default function DashboardPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center max-w-md mx-auto">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-stellar-500/20 to-accent-orange/20 flex items-center justify-center mx-auto mb-6">
-            <User className="w-10 h-10 text-stellar-400" />
+          {/* Animated empty state */}
+          <div className="relative w-32 h-32 mx-auto mb-8">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-stellar-500/10 to-accent-orange/10 animate-pulse" />
+            <div className="absolute inset-3 rounded-full bg-surface-1 flex items-center justify-center">
+              <div className="animate-float">
+                <Logo size={56} />
+              </div>
+            </div>
           </div>
           <h1 className="text-2xl font-bold text-white mb-3">Connect Your Wallet</h1>
           <p className="text-gray-400 mb-6">Connect a Stellar wallet to access your dashboard, manage your profile, and endorse skills.</p>
+          <div className="flex items-center justify-center gap-3 text-xs text-gray-500">
+            <div className="flex items-center gap-1.5">
+              <Shield className="w-3.5 h-3.5 text-stellar-400" />
+              <span>Freighter</span>
+            </div>
+            <span className="text-gray-700">·</span>
+            <div className="flex items-center gap-1.5">
+              <Wallet className="w-3.5 h-3.5 text-accent-orange" />
+              <span>Albedo</span>
+            </div>
+            <span className="text-gray-700">·</span>
+            <div className="flex items-center gap-1.5">
+              <Star className="w-3.5 h-3.5 text-accent-amber" />
+              <span>xBull</span>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -159,12 +184,23 @@ export default function DashboardPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Page Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+          <User className="w-8 h-8 text-stellar-400" />
+          Dashboard
+        </h1>
+        <p className="text-gray-400 text-sm mt-1">
+          Manage your on-chain profile, skills, and endorsements
+        </p>
+      </div>
+
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard icon={TrendingUp} label="Your Reputation" value={reputation} color="text-stellar-400" />
-        <StatCard icon={Star} label="Your Skills" value={skills.length} color="text-accent-orange" />
-        <StatCard icon={Users} label="Total Users" value={userCount} color="text-accent-emerald" />
-        <StatCard icon={Zap} label="Total Endorsements" value={totalEndorsements} color="text-accent-amber" />
+        <StatCard icon={TrendingUp} label="Your Reputation" value={reputation} color="text-stellar-400" bgColor="from-stellar-500/10 to-stellar-600/10" />
+        <StatCard icon={Star} label="Your Skills" value={skills.length} color="text-accent-orange" bgColor="from-accent-orange/10 to-amber-500/10" />
+        <StatCard icon={Users} label="Total Users" value={userCount} color="text-accent-emerald" bgColor="from-accent-emerald/10 to-emerald-500/10" />
+        <StatCard icon={Zap} label="Total Endorsements" value={totalEndorsements} color="text-accent-amber" bgColor="from-accent-amber/10 to-yellow-500/10" />
       </div>
 
       {/* Status Message */}
@@ -182,51 +218,80 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Profile Section */}
         {!profile ? (
-          <div className="glass-card p-6">
+          <div className="glass-card-glow p-6">
             <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
               <User className="w-5 h-5 text-stellar-400" />
               Create Your Profile
             </h2>
             <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Enter your display name"
-                value={profileName}
-                onChange={(e) => setProfileName(e.target.value)}
-                className="input-field"
-                maxLength={50}
-              />
+              <div>
+                <label className="block text-xs font-medium text-gray-400 mb-1.5">Display Name</label>
+                <input
+                  type="text"
+                  placeholder="Enter your display name"
+                  value={profileName}
+                  onChange={(e) => setProfileName(e.target.value)}
+                  className="input-field"
+                  maxLength={50}
+                />
+              </div>
               <button onClick={handleRegister} disabled={loading || !profileName.trim()} className="btn-primary w-full">
                 {loading ? 'Registering...' : 'Register Profile'}
               </button>
             </div>
           </div>
         ) : (
-          <div className="glass-card p-6">
-            <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <User className="w-5 h-5 text-stellar-400" />
-              Your Profile
-            </h2>
+          <div className="glass-card-glow p-6">
+            <div className="flex items-center gap-4 mb-5">
+              {/* Avatar gradient based on address */}
+              <div
+                className="w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-bold text-white shrink-0"
+                style={{
+                  background: `linear-gradient(135deg, ${addressToColor(address || '', 0)}, ${addressToColor(address || '', 4)})`,
+                }}
+              >
+                {profile.name.charAt(0).toUpperCase()}
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-white">{profile.name}</h2>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <span className="badge-stellar">{profile.role}</span>
+                  <span className="text-xs text-gray-500 font-mono">
+                    {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : ''}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Reputation Meter */}
+            <div className="mb-5 p-4 rounded-xl bg-surface-1/60 border border-white/[0.04]">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-xs text-gray-400">Reputation Score</span>
+                <span className="text-lg font-bold gradient-text">{profile.reputation}</span>
+              </div>
+              <div className="w-full bg-surface-0 h-2.5 rounded-full overflow-hidden">
+                <div
+                  className="bg-gradient-to-r from-stellar-500 via-accent-orange to-accent-amber h-full rounded-full transition-all duration-1000 ease-out"
+                  style={{ width: `${Math.min((profile.reputation / 500) * 100, 100)}%` }}
+                />
+              </div>
+              <div className="flex justify-between text-[10px] text-gray-600 mt-1">
+                <span>0</span>
+                <span>100</span>
+                <span>200</span>
+                <span>300</span>
+                <span>500+</span>
+              </div>
+            </div>
+
             <div className="space-y-3">
               <div className="flex justify-between items-center py-2 border-b border-white/[0.06]">
-                <span className="text-sm text-gray-400">Name</span>
-                <span className="text-sm text-white font-medium">{profile.name}</span>
-              </div>
-              <div className="flex justify-between items-center py-2 border-b border-white/[0.06]">
-                <span className="text-sm text-gray-400">Role</span>
-                <span className="badge-stellar">{profile.role}</span>
-              </div>
-              <div className="flex justify-between items-center py-2 border-b border-white/[0.06]">
-                <span className="text-sm text-gray-400">Reputation</span>
-                <span className="text-sm text-accent-orange font-bold">{profile.reputation}</span>
-              </div>
-              <div className="flex justify-between items-center py-2 border-b border-white/[0.06]">
-                <span className="text-sm text-gray-400">Skills</span>
-                <span className="text-sm text-white">{profile.skillCount}</span>
+                <span className="text-sm text-gray-400">Skills Registered</span>
+                <span className="text-sm text-white font-medium">{profile.skillCount}</span>
               </div>
               <div className="flex justify-between items-center py-2">
                 <span className="text-sm text-gray-400">Endorsements Received</span>
-                <span className="text-sm text-white">{profile.endorsementCount}</span>
+                <span className="text-sm text-white font-medium">{profile.endorsementCount}</span>
               </div>
             </div>
 
@@ -246,28 +311,34 @@ export default function DashboardPage() {
 
         {/* Add Skill Section */}
         {profile && (
-          <div className="glass-card p-6">
+          <div className="glass-card-glow p-6">
             <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
               <Plus className="w-5 h-5 text-accent-emerald" />
               Add New Skill
             </h2>
             <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Skill name (e.g., Rust, Soroban)"
-                value={skillName}
-                onChange={(e) => setSkillName(e.target.value)}
-                className="input-field"
-                maxLength={30}
-              />
-              <input
-                type="text"
-                placeholder="Category (e.g., Programming, Blockchain)"
-                value={skillCategory}
-                onChange={(e) => setSkillCategory(e.target.value)}
-                className="input-field"
-                maxLength={30}
-              />
+              <div>
+                <label className="block text-xs font-medium text-gray-400 mb-1.5">Skill Name</label>
+                <input
+                  type="text"
+                  placeholder="e.g., Rust, Soroban, TypeScript"
+                  value={skillName}
+                  onChange={(e) => setSkillName(e.target.value)}
+                  className="input-field"
+                  maxLength={30}
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-400 mb-1.5">Category</label>
+                <input
+                  type="text"
+                  placeholder="e.g., Programming, Blockchain"
+                  value={skillCategory}
+                  onChange={(e) => setSkillCategory(e.target.value)}
+                  className="input-field"
+                  maxLength={30}
+                />
+              </div>
               <button onClick={handleAddSkill} disabled={loading || !skillName.trim() || !skillCategory.trim()} className="btn-primary w-full">
                 {loading ? 'Adding Skill...' : 'Add Skill'}
               </button>
@@ -276,7 +347,7 @@ export default function DashboardPage() {
         )}
 
         {/* Endorsement Section */}
-        <div className="glass-card p-6 lg:col-span-2">
+        <div className="glass-card-glow p-6 lg:col-span-2">
           <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
             <Award className="w-5 h-5 text-accent-amber" />
             Endorse a Skill
@@ -286,27 +357,36 @@ export default function DashboardPage() {
             via an inter-contract call between the endorsement engine and profile registry.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <input
-              type="text"
-              placeholder="Endorsee Stellar address (G...)"
-              value={endorseeAddress}
-              onChange={(e) => setEndorseeAddress(e.target.value)}
-              className="input-field font-mono text-xs sm:col-span-2"
-            />
-            <input
-              type="text"
-              placeholder="Skill name to endorse"
-              value={endorseSkillName}
-              onChange={(e) => setEndorseSkillName(e.target.value)}
-              className="input-field"
-            />
-            <input
-              type="text"
-              placeholder="Endorsement message (optional)"
-              value={endorseMessage}
-              onChange={(e) => setEndorseMessage(e.target.value)}
-              className="input-field"
-            />
+            <div className="sm:col-span-2">
+              <label className="block text-xs font-medium text-gray-400 mb-1.5">Endorsee Address</label>
+              <input
+                type="text"
+                placeholder="Endorsee Stellar address (G...)"
+                value={endorseeAddress}
+                onChange={(e) => setEndorseeAddress(e.target.value)}
+                className="input-field font-mono text-xs"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-400 mb-1.5">Skill to Endorse</label>
+              <input
+                type="text"
+                placeholder="Skill name to endorse"
+                value={endorseSkillName}
+                onChange={(e) => setEndorseSkillName(e.target.value)}
+                className="input-field"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-400 mb-1.5">Message (Optional)</label>
+              <input
+                type="text"
+                placeholder="Endorsement message"
+                value={endorseMessage}
+                onChange={(e) => setEndorseMessage(e.target.value)}
+                className="input-field"
+              />
+            </div>
           </div>
           <button
             onClick={handleEndorse}
@@ -321,11 +401,26 @@ export default function DashboardPage() {
   );
 }
 
-function StatCard({ icon: Icon, label, value, color }: { icon: React.ElementType; label: string; value: number | string; color: string }) {
+/* ----------- Helper: address → deterministic color ----------- */
+function addressToColor(addr: string, offset: number): string {
+  const PALETTE = ['#5c7cfa', '#748ffc', '#ff6b35', '#f59f00', '#20c997', '#f06595', '#4c6ef5'];
+  let hash = 0;
+  for (let i = 0; i < addr.length; i++) {
+    hash = addr.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return PALETTE[Math.abs(hash + offset) % PALETTE.length];
+}
+
+/* ----------- Stat Card ----------- */
+function StatCard({ icon: Icon, label, value, color, bgColor }: {
+  icon: React.ElementType; label: string; value: number | string; color: string; bgColor: string;
+}) {
   return (
     <div className="stat-card">
       <div className="flex items-center gap-3">
-        <Icon className={`w-5 h-5 ${color}`} />
+        <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${bgColor} flex items-center justify-center shrink-0`}>
+          <Icon className={`w-5 h-5 ${color}`} />
+        </div>
         <div>
           <p className="text-2xl font-bold text-white">{value}</p>
           <p className="text-xs text-gray-500">{label}</p>
