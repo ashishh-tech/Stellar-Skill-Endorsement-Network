@@ -1,429 +1,614 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Shield, Users, Zap, Award, GitBranch, Lock, CheckCircle, Globe, Layers } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import {
+  ArrowRight,
+  Shield,
+  Users,
+  Zap,
+  Award,
+  GitBranch,
+  Lock,
+  CheckCircle,
+  Globe,
+  Layers,
+  Sparkles,
+  Cpu,
+  Code2,
+  Share2,
+  TrendingUp,
+  Terminal,
+  Database,
+  Search,
+} from 'lucide-react';
 import { useWalletStore } from '@/features/wallet/store';
+import { useDemoStore } from '@/features/demo/useDemoStore';
 import { Logo } from '@/components/Logo';
+import { TrustWeightCalculator } from '@/components/TrustWeightCalculator';
+import { truncateAddress } from '@/config/stellar';
 
 export default function LandingPage() {
   const { isConnected } = useWalletStore();
+  const { peers, setSelectedPeerForDossier } = useDemoStore();
+  const [selectedArchTab, setSelectedArchTab] = useState<'flow' | 'profile_contract' | 'endorsement_contract'>('flow');
 
   return (
     <div className="relative overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center">
-        {/* Animated background orbs */}
-        <div className="absolute top-[-10%] left-[15%] w-[500px] h-[500px] bg-stellar-500/8 rounded-full blur-[140px] animate-float" />
-        <div className="absolute bottom-[-5%] right-[10%] w-[400px] h-[400px] bg-accent-orange/6 rounded-full blur-[120px] animate-float" style={{ animationDelay: '3s' }} />
-        <div className="absolute top-[40%] right-[30%] w-[300px] h-[300px] bg-stellar-700/5 rounded-full blur-[100px] animate-float" style={{ animationDelay: '1.5s' }} />
+      {/* 1. Hero Section */}
+      <section className="relative min-h-[92vh] flex items-center justify-center pt-8 pb-20">
+        {/* Animated ambient backdrop glows */}
+        <div className="absolute top-[5%] left-[10%] w-[550px] h-[550px] bg-stellar-500/12 rounded-full blur-[140px] pointer-events-none animate-float" />
+        <div className="absolute bottom-[5%] right-[10%] w-[500px] h-[500px] bg-accent-orange/10 rounded-full blur-[140px] pointer-events-none animate-float" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-[40%] right-[35%] w-[350px] h-[350px] bg-accent-purple/10 rounded-full blur-[120px] pointer-events-none animate-float" style={{ animationDelay: '1.5s' }} />
 
-        {/* Subtle grid pattern overlay */}
+        {/* Subtle grid pattern */}
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.04] pointer-events-none"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(92, 124, 250, 0.3) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(92, 124, 250, 0.3) 1px, transparent 1px)
+              linear-gradient(rgba(92, 124, 250, 0.4) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(92, 124, 250, 0.4) 1px, transparent 1px)
             `,
-            backgroundSize: '60px 60px',
+            backgroundSize: '48px 48px',
           }}
         />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left: Text Content */}
-            <div className="text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-stellar-500/10 border border-stellar-500/20 text-stellar-400 text-sm font-medium mb-8 animate-fade-in">
-                <Zap className="w-4 h-4" />
-                Powered by Stellar Soroban Smart Contracts
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Left: Text & CTA Content (7 cols) */}
+            <div className="lg:col-span-7 text-center lg:text-left space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-stellar-500/15 border border-stellar-500/30 text-stellar-300 text-xs sm:text-sm font-semibold shadow-lg shadow-stellar-500/10 animate-fade-in">
+                <Sparkles className="w-4 h-4 text-accent-orange animate-pulse" />
+                <span>Next-Gen Stellar Soroban Smart Contract Architecture</span>
               </div>
 
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-6 animate-slide-up">
-                <span className="text-white">Trust-Weighted</span>
-                <br />
-                <span className="gradient-text">Skill Endorsements</span>
-                <br />
-                <span className="text-white">On-Chain</span>
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.08] animate-slide-up">
+                Trust-Weighted <br />
+                <span className="gradient-text">Skill Endorsements</span> <br />
+                <span className="text-white">On-Chain.</span>
               </h1>
 
-              <p className="text-lg sm:text-xl text-gray-400 max-w-xl mx-auto lg:mx-0 mb-10 leading-relaxed animate-slide-up" style={{ animationDelay: '0.1s' }}>
-                Build your professional reputation graph with Sybil-resistant,
-                trust-weighted endorsements. Every endorsement is permanent,
-                auditable, and weighted by the endorser&apos;s on-chain reputation.
+              <p className="text-base sm:text-lg text-gray-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal animate-slide-up" style={{ animationDelay: '0.1s' }}>
+                Traditional resume endorsements are easily faked. Stellar SkillNet establishes a
+                <strong> Sybil-resistant on-chain reputation graph</strong> where endorsement weights
+                are mathematically scaled by the endorser&apos;s real-time reputation score via Soroban cross-contract calls.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-                <Link href={isConnected ? '/dashboard' : '/dashboard'} className="btn-primary text-lg px-8 py-4 flex items-center gap-2">
-                  {isConnected ? 'Go to Dashboard' : 'Get Started'}
-                  <ArrowRight className="w-5 h-5" />
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+                <Link
+                  href="/dashboard"
+                  className="btn-primary text-base px-8 py-4 w-full sm:w-auto shadow-xl shadow-stellar-500/25 group"
+                >
+                  <span>Launch dApp Dashboard</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <Link href="/activity" className="btn-secondary text-lg px-8 py-4">
-                  View Live Activity
+                <Link
+                  href="/analytics"
+                  className="btn-secondary text-base px-7 py-4 w-full sm:w-auto"
+                >
+                  <TrendingUp className="w-5 h-5 text-accent-orange" />
+                  <span>Explore Reputation Graph</span>
                 </Link>
               </div>
+
+              {/* Trust Badge Strip */}
+              <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-y-2 gap-x-6 text-xs text-gray-400 font-mono">
+                <div className="flex items-center gap-1.5 text-emerald-400">
+                  <CheckCircle className="w-3.5 h-3.5" />
+                  <span>Dual Contract Inter-Calling</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-stellar-300">
+                  <Shield className="w-3.5 h-3.5" />
+                  <span>Sublinear Sybil Resistance</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-accent-orange">
+                  <Zap className="w-3.5 h-3.5" />
+                  <span>Real-Time Soroban RPC</span>
+                </div>
+              </div>
             </div>
 
-            {/* Right: Animated Network Visualization */}
-            <div className="hidden lg:flex items-center justify-center">
-              <NetworkVisualization />
+            {/* Right: Interactive Interactive Network Visualizer (5 cols) */}
+            <div className="lg:col-span-5 flex items-center justify-center">
+              <InteractiveHeroGraph onSelectPeer={(peer) => setSelectedPeerForDossier(peer)} />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Trust Indicators */}
-      <section className="py-6 border-y border-white/[0.04] bg-surface-1/30">
+      {/* 2. Live Network Stats Ticker Bar */}
+      <section className="py-6 border-y border-white/[0.08] bg-surface-1/70 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-sm text-gray-500">
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-emerald-500" />
-              <span>Stellar Testnet Deployed</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Shield className="w-4 h-4 text-stellar-400" />
-              <span>Sybil-Resistant by Design</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Lock className="w-4 h-4 text-accent-orange" />
-              <span>Immutable Audit Trail</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Globe className="w-4 h-4 text-accent-emerald" />
-              <span>Open Source</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-24 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-stellar-500/10 border border-stellar-500/20 text-stellar-400 text-xs font-semibold uppercase tracking-wider mb-4">
-              Core Capabilities
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Why Skill Endorsement Network?
-            </h2>
-            <p className="text-gray-400 max-w-xl mx-auto">
-              Traditional endorsements are meaningless. Ours are verifiable, weighted by trust, and permanently recorded.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {FEATURES.map((feature, i) => (
-              <div
-                key={i}
-                className="glass-card-hover p-6 group"
-              >
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <feature.icon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
-                <p className="text-sm text-gray-400 leading-relaxed">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-24 border-t border-white/[0.04] relative">
-        {/* Subtle background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-surface-1/20 to-transparent pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-orange/10 border border-accent-orange/20 text-accent-orange text-xs font-semibold uppercase tracking-wider mb-4">
-              Getting Started
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">How It Works</h2>
-            <p className="text-gray-400 max-w-lg mx-auto">
-              Four simple steps to build your trust-weighted on-chain reputation.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {STEPS.map((step, i) => (
-              <div key={i} className="text-center group relative">
-                {/* Connector line */}
-                {i < STEPS.length - 1 && (
-                  <div className="hidden md:block absolute top-7 left-[60%] w-[80%] h-[2px] bg-gradient-to-r from-stellar-500/30 to-transparent" />
-                )}
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-stellar-500 to-accent-orange mx-auto mb-4 flex items-center justify-center text-xl font-bold text-white group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-stellar-500/20">
-                  {i + 1}
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
-                <p className="text-sm text-gray-400">{step.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Architecture Section */}
-      <section className="py-24 border-t border-white/[0.04]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-emerald/10 border border-accent-emerald/20 text-accent-emerald text-xs font-semibold uppercase tracking-wider mb-4">
-              Architecture
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Dual-Contract Architecture
-            </h2>
-            <p className="text-gray-400 max-w-xl mx-auto">
-              Two Soroban smart contracts communicate via cross-contract calls to form a trust-weighted endorsement graph.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <div className="glass-card-glow p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-stellar-500/20 flex items-center justify-center">
-                  <Users className="w-5 h-5 text-stellar-400" />
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-white">ProfileRegistry</h3>
-                  <p className="text-xs text-gray-500">Contract #1</p>
-                </div>
-              </div>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                  <span>User registration with RBAC (Admin / User / Verifier)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                  <span>Skill management with categories</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                  <span>Reputation score storage (base: 100)</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="glass-card-glow p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-accent-orange/20 flex items-center justify-center">
-                  <Award className="w-5 h-5 text-accent-orange" />
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-white">EndorsementEngine</h3>
-                  <p className="text-xs text-gray-500">Contract #2</p>
-                </div>
-              </div>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                  <span>Cross-contract reputation queries in real-time</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                  <span>Trust-weighted endorsement calculations</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                  <span>Self-endorsement and duplicate prevention</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Cross-contract call arrow */}
-          <div className="flex items-center justify-center my-6">
-            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-surface-2 border border-white/[0.06] text-xs text-gray-400">
-              <Layers className="w-4 h-4 text-stellar-400" />
-              <span>Inter-Contract Calls via Soroban cross_contract_call</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 border-t border-white/[0.04]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {STATS.map((stat, i) => (
-              <div key={i} className="text-center group">
-                <AnimatedStatValue value={stat.value} />
-                <div className="text-sm text-gray-500 group-hover:text-gray-400 transition-colors">{stat.label}</div>
+              <div key={i} className="space-y-1">
+                <div className="text-2xl sm:text-3xl font-black gradient-text font-mono">
+                  {stat.value}
+                </div>
+                <div className="text-xs text-gray-400 font-medium">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 border-t border-white/[0.04] relative">
-        <div className="absolute inset-0 bg-gradient-to-t from-stellar-500/[0.03] to-transparent pointer-events-none" />
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <Logo size={64} className="mx-auto mb-6" />
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+      {/* 3. Interactive Trust-Weight Formula Simulator */}
+      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-accent-orange/15 border border-accent-orange/30 text-accent-orange text-xs font-bold uppercase tracking-wider mb-3">
+            Sybil-Resistant Mechanics
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+            Mathematically Sound Trust Scaling
+          </h2>
+          <p className="text-gray-400 text-sm sm:text-base max-w-xl mx-auto mt-2">
+            No spam, no self-endorsements, no bots. How our Soroban contracts protect integrity.
+          </p>
+        </div>
+
+        <TrustWeightCalculator />
+      </section>
+
+      {/* 4. Dual-Contract Architecture Showcase (Tabbed Rust Code & Inter-Call Visualizer) */}
+      <section className="py-20 border-t border-white/[0.06] bg-surface-1/40 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold uppercase tracking-wider mb-3">
+              <Code2 className="w-3.5 h-3.5" />
+              Soroban Rust Architecture
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+              Dual-Contract Inter-Invocation Design
+            </h2>
+            <p className="text-gray-400 text-sm sm:text-base max-w-xl mx-auto mt-2">
+              Explore how <code>ProfileRegistry</code> and <code>EndorsementEngine</code> communicate atomically on the Stellar VM.
+            </p>
+          </div>
+
+          {/* Tab Selector */}
+          <div className="flex justify-center mb-8">
+            <div className="p-1 bg-surface-2 border border-white/[0.08] rounded-2xl flex gap-1">
+              <button
+                onClick={() => setSelectedArchTab('flow')}
+                className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 ${
+                  selectedArchTab === 'flow'
+                    ? 'bg-stellar-500 text-white shadow-lg shadow-stellar-500/25'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <Layers className="w-4 h-4" />
+                Cross-Contract Workflow
+              </button>
+              <button
+                onClick={() => setSelectedArchTab('profile_contract')}
+                className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 ${
+                  selectedArchTab === 'profile_contract'
+                    ? 'bg-stellar-500 text-white shadow-lg shadow-stellar-500/25'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <Database className="w-4 h-4" />
+                ProfileRegistry.rs
+              </button>
+              <button
+                onClick={() => setSelectedArchTab('endorsement_contract')}
+                className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 ${
+                  selectedArchTab === 'endorsement_contract'
+                    ? 'bg-stellar-500 text-white shadow-lg shadow-stellar-500/25'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <Award className="w-4 h-4" />
+                EndorsementEngine.rs
+              </button>
+            </div>
+          </div>
+
+          {/* Architecture Content */}
+          {selectedArchTab === 'flow' && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+              {/* Step 1 */}
+              <div className="glass-card-glow p-6 space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-stellar-500/20 border border-stellar-500/30 flex items-center justify-center text-stellar-300 font-bold text-lg">
+                  1
+                </div>
+                <h3 className="text-lg font-bold text-white">Client Invocations & Auth</h3>
+                <p className="text-xs text-gray-400 leading-relaxed">
+                  The endorser initiates <code>endorse_skill()</code> via Freighter or Albedo wallet. The transaction passes Soroban simulation and builds required signature trees.
+                </p>
+                <div className="p-3 rounded-xl bg-surface-1/90 border border-white/[0.04] text-[11px] font-mono text-stellar-300">
+                  client.endorse_skill(&quot;GBK923...&quot;, &quot;Rust&quot;)
+                </div>
+              </div>
+
+              {/* Step 2 */}
+              <div className="glass-card-glow p-6 space-y-4 relative">
+                <div className="w-12 h-12 rounded-2xl bg-accent-orange/20 border border-accent-orange/30 flex items-center justify-center text-accent-orange font-bold text-lg">
+                  2
+                </div>
+                <h3 className="text-lg font-bold text-white">Inter-Contract Reputation Lookup</h3>
+                <p className="text-xs text-gray-400 leading-relaxed">
+                  <code>EndorsementEngine</code> uses Soroban&apos;s <code>Env::invoke_contract()</code> to cross-call <code>ProfileRegistry::get_reputation()</code> and retrieve live trust scores.
+                </p>
+                <div className="p-3 rounded-xl bg-surface-1/90 border border-white/[0.04] text-[11px] font-mono text-accent-orange">
+                  ProfileRegistryClient::new(&amp;env, &amp;profile_id)
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="glass-card-glow p-6 space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-accent-emerald/20 border border-accent-emerald/30 flex items-center justify-center text-emerald-300 font-bold text-lg">
+                  3
+                </div>
+                <h3 className="text-lg font-bold text-white">Atomic State & Weight Commit</h3>
+                <p className="text-xs text-gray-400 leading-relaxed">
+                  Endorsement weights are mathematically aggregated. <code>ProfileRegistry::increment_endorsement_count()</code> is executed atomically and events stream to Soroban RPC.
+                </p>
+                <div className="p-3 rounded-xl bg-surface-1/90 border border-white/[0.04] text-[11px] font-mono text-emerald-400">
+                  env.events().publish((symbol!(&quot;endorse&quot;), ...))
+                </div>
+              </div>
+            </div>
+          )}
+
+          {selectedArchTab === 'profile_contract' && (
+            <div className="glass-card p-6 font-mono text-xs overflow-x-auto bg-surface-1/95 border border-white/[0.08] rounded-2xl">
+              <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/[0.06] text-gray-400">
+                <span>contracts/profile_registry/src/lib.rs</span>
+                <span className="text-stellar-400">Soroban Rust Contract #1</span>
+              </div>
+              <pre className="text-gray-300 leading-relaxed">
+{`#[contractimpl]
+impl ProfileRegistry {
+    /// Registers a new on-chain identity with initial base reputation (100)
+    pub fn register_profile(env: Env, owner: Address, name: String) -> Result<ProfileData, Error> {
+        owner.require_auth();
+        if Self::has_profile(env.clone(), owner.clone()) {
+            return Err(Error::ProfileAlreadyExists);
+        }
+        let profile = ProfileData {
+            owner: owner.clone(),
+            name,
+            role: Role::User,
+            reputation: 100,
+            skill_count: 0,
+            endorsement_count: 0,
+        };
+        env.storage().persistent().set(&DataKey::Profile(owner.clone()), &profile);
+        env.events().publish((symbol_short!("reg_prof"), owner), profile.reputation);
+        Ok(profile)
+    }
+
+    pub fn get_reputation(env: Env, owner: Address) -> u32 {
+        Self::get_profile(env, owner).map(|p| p.reputation).unwrap_or(0)
+    }
+}`}
+              </pre>
+            </div>
+          )}
+
+          {selectedArchTab === 'endorsement_contract' && (
+            <div className="glass-card p-6 font-mono text-xs overflow-x-auto bg-surface-1/95 border border-white/[0.08] rounded-2xl">
+              <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/[0.06] text-gray-400">
+                <span>contracts/endorsement_engine/src/lib.rs</span>
+                <span className="text-accent-orange">Soroban Rust Contract #2</span>
+              </div>
+              <pre className="text-gray-300 leading-relaxed">
+{`#[contractimpl]
+impl EndorsementEngine {
+    /// Executes a trust-weighted endorsement via inter-contract call
+    pub fn endorse_skill(
+        env: Env,
+        endorser: Address,
+        endorsee: Address,
+        skill: String,
+        message: String,
+    ) -> Result<Endorsement, Error> {
+        endorser.require_auth();
+        if endorser == endorsee {
+            return Err(Error::SelfEndorsementNotAllowed);
+        }
+
+        // Cross-contract call: Query endorser reputation from ProfileRegistry
+        let profile_client = ProfileRegistryClient::new(&env, &get_profile_contract(&env)?);
+        let endorser_rep = profile_client.get_reputation(&endorser);
+        if endorser_rep == 0 {
+            return Err(Error::EndorserHasNoProfile);
+        }
+
+        // Sublinear trust weight calculation: sqrt(rep) * 8
+        let weight = calculate_trust_weight(endorser_rep);
+        let endorsement = Endorsement { endorser, endorsee, skill, weight, message };
+        
+        // Save persistent record & notify RPC
+        save_endorsement(&env, &endorsement);
+        env.events().publish((symbol_short!("endorse"), endorser), (endorsee, weight));
+        Ok(endorsement)
+    }
+}`}
+              </pre>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* 5. Core Platform Capabilities Grid */}
+      <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-stellar-500/15 border border-stellar-500/30 text-stellar-300 text-xs font-bold uppercase tracking-wider mb-3">
+            Core Highlights
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+            Built for Stellar Soroban Dominance
+          </h2>
+          <p className="text-gray-400 text-sm sm:text-base max-w-xl mx-auto mt-2">
+            Every feature is engineered for high throughput, cryptographic trust, and seamless user experience.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {FEATURES.map((feature, i) => (
+            <div key={i} className="glass-card-hover p-6 group space-y-4">
+              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                <feature.icon className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-bold text-white group-hover:text-stellar-300 transition-colors">
+                {feature.title}
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">
+                {feature.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 6. Quick Leaderboard Teaser */}
+      <section className="py-20 border-t border-white/[0.06] bg-surface-1/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-amber/15 border border-accent-amber/30 text-accent-amber text-xs font-bold uppercase tracking-wider mb-2">
+                On-Chain Graph Preview
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white">
+                Top Endorsed Developers
+              </h2>
+            </div>
+            <Link href="/analytics" className="btn-secondary text-xs sm:text-sm flex items-center gap-1.5 self-start sm:self-auto">
+              <span>View Full Leaderboard & Graph</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {peers.slice(0, 3).map((peer, idx) => (
+              <div
+                key={peer.address}
+                onClick={() => setSelectedPeerForDossier(peer)}
+                className="glass-card-hover p-5 cursor-pointer group"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-stellar-500 to-accent-orange flex items-center justify-center text-lg font-bold text-white shadow-lg shadow-stellar-500/20 group-hover:scale-105 transition-transform">
+                    {peer.name.charAt(0)}
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-white group-hover:text-stellar-300 transition-colors">
+                      {peer.name}
+                    </h3>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-3 text-gray-300 font-medium">
+                        {peer.role}
+                      </span>
+                      <span className="text-[10px] text-gray-500 font-mono">
+                        {truncateAddress(peer.address, 6)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between text-xs py-2 border-t border-white/[0.04]">
+                  <span className="text-gray-400">Reputation Score</span>
+                  <span className="font-bold gradient-text text-sm">{peer.reputation}</span>
+                </div>
+
+                <div className="flex flex-wrap gap-1.5 mt-3">
+                  {peer.skills.slice(0, 2).map((s, sIdx) => (
+                    <span key={sIdx} className="badge badge-stellar text-[10px]">
+                      {s.name}
+                    </span>
+                  ))}
+                  {peer.skills.length > 2 && (
+                    <span className="text-[10px] text-gray-500 self-center">
+                      +{peer.skills.length - 2} more
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. Bottom CTA */}
+      <section className="py-24 relative overflow-hidden text-center border-t border-white/[0.08]">
+        <div className="absolute inset-0 bg-gradient-to-b from-stellar-500/5 via-transparent to-surface-0 pointer-events-none" />
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
+          <Logo size={64} className="mx-auto animate-float" />
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
             Ready to Build Your On-Chain Reputation?
           </h2>
-          <p className="text-gray-400 mb-8 max-w-lg mx-auto">
-            Connect your Stellar wallet, create a profile, and start giving and receiving trust-weighted skill endorsements today.
+          <p className="text-gray-300 text-sm sm:text-base max-w-lg mx-auto">
+            Connect with Freighter, Albedo, or test immediately via our interactive Reviewer Demo mode.
           </p>
-          <Link href="/dashboard" className="btn-primary text-lg px-10 py-4 inline-flex items-center gap-2">
-            Launch Dashboard
-            <ArrowRight className="w-5 h-5" />
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+            <Link href="/dashboard" className="btn-primary text-base px-8 py-4 shadow-xl shadow-stellar-500/30">
+              Open dApp Dashboard
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
         </div>
       </section>
     </div>
   );
 }
 
-/* ----------- Animated Stat Value ----------- */
-function AnimatedStatValue({ value }: { value: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+/* ----------------- Interactive Hero Network Graph ----------------- */
+function InteractiveHeroGraph({ onSelectPeer }: { onSelectPeer: (peer: any) => void }) {
+  const { peers } = useDemoStore();
+  const [activeNode, setActiveNode] = useState(0);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.5 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+    const timer = setInterval(() => {
+      setActiveNode((prev) => (prev + 1) % peers.length);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, [peers.length]);
 
   return (
-    <div
-      ref={ref}
-      className={`text-3xl font-bold gradient-text mb-1 transition-all duration-700 ${
-        visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-      }`}
-    >
-      {value}
-    </div>
-  );
-}
-
-/* ----------- Network Visualization ----------- */
-function NetworkVisualization() {
-  return (
-    <div className="relative w-[420px] h-[420px]">
-      {/* Outer rotating ring */}
-      <div className="absolute inset-0 animate-orbit">
-        <svg width="420" height="420" viewBox="0 0 420 420" fill="none" className="w-full h-full">
-          <circle cx="210" cy="210" r="190" stroke="url(#viz-ring)" strokeWidth="1" strokeDasharray="8 8" opacity="0.3" />
+    <div className="relative w-full max-w-[420px] aspect-square flex items-center justify-center">
+      {/* Outer spinning ring */}
+      <div className="absolute inset-0 animate-orbit pointer-events-none">
+        <svg viewBox="0 0 420 420" className="w-full h-full">
+          <circle
+            cx="210"
+            cy="210"
+            r="190"
+            stroke="url(#hero-ring-grad)"
+            strokeWidth="1.5"
+            strokeDasharray="8 12"
+            opacity="0.35"
+          />
           <defs>
-            <linearGradient id="viz-ring" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id="hero-ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#5c7cfa" />
-              <stop offset="100%" stopColor="#ff6b35" />
+              <stop offset="50%" stopColor="#ff6b35" />
+              <stop offset="100%" stopColor="#20c997" />
             </linearGradient>
           </defs>
         </svg>
       </div>
 
-      {/* Central Logo */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="animate-float">
-          <Logo size={100} />
-        </div>
+      {/* Central Brand Core */}
+      <div className="absolute z-20 flex flex-col items-center justify-center text-center p-6 rounded-full bg-surface-1/90 border-2 border-stellar-500/40 shadow-2xl backdrop-blur-xl animate-float">
+        <Logo size={52} />
+        <div className="text-[10px] font-black text-stellar-300 font-mono mt-1">SOROBAN VM</div>
       </div>
 
-      {/* Orbiting Nodes */}
-      {ORBIT_NODES.map((node, i) => (
-        <div
-          key={i}
-          className="absolute animate-float"
-          style={{
-            left: `${node.x}%`,
-            top: `${node.y}%`,
-            animationDelay: `${node.delay}s`,
-            animationDuration: `${5 + i}s`,
-          }}
-        >
-          <div className={`flex items-center gap-2 px-3 py-2 rounded-xl ${node.bg} border ${node.border} backdrop-blur-md shadow-lg`}>
-            <div className={`w-2 h-2 rounded-full ${node.dot}`} />
-            <span className="text-xs font-medium text-gray-200 whitespace-nowrap">{node.label}</span>
-          </div>
-        </div>
-      ))}
+      {/* Orbiting Peer Nodes */}
+      {peers.slice(0, 5).map((peer, i) => {
+        const angle = (i * 2 * Math.PI) / 5;
+        const radius = 145;
+        const x = 210 + radius * Math.cos(angle);
+        const y = 210 + radius * Math.sin(angle);
+        const isSelected = activeNode === i;
 
-      {/* Connecting lines from nodes to center (decorative SVG) */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 420 420">
+        return (
+          <div
+            key={peer.address}
+            onClick={() => onSelectPeer(peer)}
+            style={{
+              left: `${(x / 420) * 100}%`,
+              top: `${(y / 420) * 100}%`,
+              transform: 'translate(-50%, -50%)',
+            }}
+            className={`absolute z-30 cursor-pointer p-2.5 rounded-2xl backdrop-blur-xl border transition-all duration-500 ${
+              isSelected
+                ? 'bg-surface-2 border-accent-orange shadow-lg shadow-accent-orange/25 scale-110'
+                : 'bg-surface-1/80 border-white/[0.1] hover:border-stellar-400 hover:scale-105'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-stellar-500 to-accent-orange flex items-center justify-center text-xs font-bold text-white shrink-0">
+                {peer.name.charAt(0)}
+              </div>
+              <div className="text-left hidden sm:block">
+                <div className="text-xs font-bold text-white leading-tight">{peer.name}</div>
+                <div className="text-[10px] text-accent-orange font-mono font-semibold">
+                  {peer.reputation} Rep
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+
+      {/* SVG Connecting Trust Lines */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
         <defs>
-          <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#5c7cfa" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#ff6b35" stopOpacity="0.1" />
+          <linearGradient id="trust-line" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#5c7cfa" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#ff6b35" stopOpacity="0.2" />
           </linearGradient>
         </defs>
-        <line x1="210" y1="210" x2="65" y2="80" stroke="url(#line-grad)" strokeWidth="1" />
-        <line x1="210" y1="210" x2="360" y2="65" stroke="url(#line-grad)" strokeWidth="1" />
-        <line x1="210" y1="210" x2="380" y2="260" stroke="url(#line-grad)" strokeWidth="1" />
-        <line x1="210" y1="210" x2="320" y2="380" stroke="url(#line-grad)" strokeWidth="1" />
-        <line x1="210" y1="210" x2="50" y2="300" stroke="url(#line-grad)" strokeWidth="1" />
+        {peers.slice(0, 5).map((_, i) => {
+          const angle = (i * 2 * Math.PI) / 5;
+          const radius = 145;
+          const x = 210 + radius * Math.cos(angle);
+          const y = 210 + radius * Math.sin(angle);
+          return (
+            <line
+              key={i}
+              x1="210"
+              y1="210"
+              x2={x}
+              y2={y}
+              stroke="url(#trust-line)"
+              strokeWidth="1.5"
+              strokeDasharray={activeNode === i ? 'none' : '4 4'}
+            />
+          );
+        })}
       </svg>
     </div>
   );
 }
 
-/* ----------- Constants ----------- */
-
-const ORBIT_NODES = [
-  { x: 5, y: 12, label: 'Rust', bg: 'bg-surface-2/80', border: 'border-stellar-500/20', dot: 'bg-stellar-400', delay: 0 },
-  { x: 72, y: 5, label: 'Soroban', bg: 'bg-surface-2/80', border: 'border-accent-orange/20', dot: 'bg-accent-orange', delay: 1.2 },
-  { x: 80, y: 52, label: 'Rep: 245', bg: 'bg-surface-2/80', border: 'border-accent-amber/20', dot: 'bg-accent-amber', delay: 0.6 },
-  { x: 65, y: 85, label: 'Verified ✓', bg: 'bg-surface-2/80', border: 'border-accent-emerald/20', dot: 'bg-accent-emerald', delay: 1.8 },
-  { x: 2, y: 65, label: 'TypeScript', bg: 'bg-surface-2/80', border: 'border-stellar-500/20', dot: 'bg-stellar-300', delay: 2.4 },
+/* ----------------- Constants ----------------- */
+const STATS = [
+  { value: '2', label: 'Dual Soroban Contracts' },
+  { value: '100%', label: 'Sybil-Resistant Cross Verification' },
+  { value: '<3s', label: 'Stellar Testnet Finality' },
+  { value: '0.00001', label: 'Average Gas (XLM)' },
 ];
 
 const FEATURES = [
   {
     icon: Shield,
-    title: 'Sybil-Resistant',
-    description: 'Endorsement weight scales with the endorser\'s on-chain reputation. Gaming the system requires earning real trust first.',
-    gradient: 'from-stellar-500/20 to-stellar-600/20',
-  },
-  {
-    icon: Users,
-    title: 'Inter-Contract Trust Graph',
-    description: 'Two smart contracts communicate in real-time — the endorsement engine queries live reputation scores from the profile registry.',
-    gradient: 'from-accent-emerald/20 to-emerald-500/20',
-  },
-  {
-    icon: Award,
-    title: 'Weighted Reputation',
-    description: 'Every endorsement carries weight proportional to the endorser\'s reputation score. Higher trust = stronger endorsements.',
-    gradient: 'from-accent-orange/20 to-amber-500/20',
-  },
-  {
-    icon: Lock,
-    title: 'Immutable & Auditable',
-    description: 'All endorsements are permanently recorded on the Stellar blockchain with full event history and audit trail.',
-    gradient: 'from-rose-500/20 to-pink-500/20',
+    title: 'Sybil-Resistant Endorsements',
+    description: 'Endorsement weight is mathematically locked to the endorser’s on-chain trust score. Fake identities and wash-endorsements have zero weight.',
+    gradient: 'from-stellar-500 to-stellar-700',
   },
   {
     icon: GitBranch,
-    title: 'Smart Contract RBAC',
-    description: 'Role-based access control with Admin, User, and Verifier roles. Upgradeable contracts with admin-only controls.',
-    gradient: 'from-violet-500/20 to-purple-500/20',
+    title: 'Cross-Contract Soroban Invocation',
+    description: 'The Endorsement Engine dynamically calls the Profile Registry on-chain in real-time to compute trust weighting with atomic guarantees.',
+    gradient: 'from-accent-orange to-amber-600',
+  },
+  {
+    icon: Award,
+    title: 'Verifiable On-Chain Credentials',
+    description: 'Every skill backed by peers is permanently registered on the Stellar blockchain, generating cryptographically auditable proof certificates.',
+    gradient: 'from-accent-emerald to-teal-700',
+  },
+  {
+    icon: Lock,
+    title: 'Role-Based Access Control (RBAC)',
+    description: 'Admin, Verifier, and User privilege levels manage security updates, certified badges, and contract upgrade authorization.',
+    gradient: 'from-accent-purple to-indigo-800',
   },
   {
     icon: Zap,
-    title: 'Real-Time Events',
-    description: 'Live activity feed streams contract events from the Soroban RPC. See endorsements happen in real-time.',
-    gradient: 'from-amber-500/20 to-yellow-500/20',
+    title: 'Real-Time Ledger RPC Streaming',
+    description: 'Live activity feed connects directly to Soroban RPC endpoints, instantly capturing endorsement events and state mutations.',
+    gradient: 'from-amber-500 to-orange-600',
   },
-];
-
-const STEPS = [
-  { title: 'Connect Wallet', description: 'Link your Stellar wallet (Freighter, Albedo, or others)' },
-  { title: 'Create Profile', description: 'Register your on-chain identity with skills' },
-  { title: 'Endorse Skills', description: 'Endorse other users\' skills with trust-weighted backing' },
-  { title: 'Build Reputation', description: 'Grow your on-chain reputation graph over time' },
-];
-
-const STATS = [
-  { value: '2', label: 'Smart Contracts' },
-  { value: '4+', label: 'Inter-Contract Calls' },
-  { value: '∞', label: 'On-Chain Events' },
-  { value: '<5s', label: 'Tx Confirmation' },
+  {
+    icon: Users,
+    title: 'Interactive Reputation Graph',
+    description: 'Visual explorer mapping peer-to-peer trust links, category specialties, and historical contribution trajectories.',
+    gradient: 'from-cyan-500 to-blue-600',
+  },
 ];
