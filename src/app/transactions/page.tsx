@@ -20,6 +20,7 @@ import {
   Shield,
 } from 'lucide-react';
 import { getExplorerTxUrl, truncateAddress } from '@/config/stellar';
+import { soundFx } from '@/utils/soundEffects';
 
 const PIPELINE_STEPS = [
   { step: 1, title: 'Simulate Footprint', desc: 'Pre-flight resource & state storage check' },
@@ -40,6 +41,7 @@ export default function TransactionsPage() {
 
   // Reviewer interactive sandbox simulation
   const handleRunSimulation = () => {
+    soundFx.playBeam();
     setSimulationActive(true);
     setSimStep(1);
 
@@ -47,9 +49,11 @@ export default function TransactionsPage() {
       setSimStep((prev) => {
         if (prev >= 5) {
           clearInterval(interval);
+          soundFx.playSuccess();
           setTimeout(() => setSimulationActive(false), 2000);
           return 5;
         }
+        soundFx.playHover();
         return prev + 1;
       });
     }, 700);

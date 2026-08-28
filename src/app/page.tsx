@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   ArrowRight,
   Shield,
@@ -21,26 +21,115 @@ import {
   Terminal,
   Database,
   Search,
+  CheckCircle2,
+  Activity,
+  Server,
+  FileCheck2,
+  Play,
 } from 'lucide-react';
 import { useWalletStore } from '@/features/wallet/store';
 import { useDemoStore } from '@/features/demo/useDemoStore';
 import { Logo } from '@/components/Logo';
 import { TrustWeightCalculator } from '@/components/TrustWeightCalculator';
-import { truncateAddress } from '@/config/stellar';
+import { InteractiveHeroGraph } from '@/components/InteractiveHeroGraph';
+import { SybilSimulator } from '@/components/SybilSimulator';
+import { soundFx } from '@/utils/soundEffects';
 
 export default function LandingPage() {
   const { isConnected } = useWalletStore();
-  const { peers, setSelectedPeerForDossier } = useDemoStore();
+  const { peers, setSelectedPeerForDossier, activeDemoUser, setActiveDemoUser } = useDemoStore();
   const [selectedArchTab, setSelectedArchTab] = useState<'flow' | 'profile_contract' | 'endorsement_contract'>('flow');
+
+  // Interactive playground state
+  const [playgroundMethod, setPlaygroundMethod] = useState<'register' | 'endorse' | 'query'>('endorse');
+  const [simulatingInvocation, setSimulatingInvocation] = useState(false);
+  const [simOutput, setSimOutput] = useState<string | null>(null);
+
+  const handleSimulateInvocation = () => {
+    soundFx.playBeam();
+    setSimulatingInvocation(true);
+    setSimOutput(null);
+
+    setTimeout(() => {
+      setSimulatingInvocation(false);
+      soundFx.playSuccess();
+      if (playgroundMethod === 'endorse') {
+        setSimOutput(
+          JSON.stringify(
+            {
+              status: 'SUCCESS',
+              ledger: 582504,
+              events: [
+                {
+                  contract: 'EndorsementEngine',
+                  topic: ['endorse', 'Alice Vance'],
+                  data: {
+                    endorser: activeDemoUser.name,
+                    skill: 'Rust Smart Contracts',
+                    reputation_applied: activeDemoUser.reputation,
+                    calculated_weight: Math.round(Math.sqrt(activeDemoUser.reputation) * 10),
+                  },
+                },
+              ],
+              gas_cost_xlm: '0.0000100',
+              cpu_instructions: 24890,
+              storage_footprint: { read_only: 2, read_write: 3 },
+            },
+            null,
+            2
+          )
+        );
+      } else if (playgroundMethod === 'register') {
+        setSimOutput(
+          JSON.stringify(
+            {
+              status: 'SUCCESS',
+              ledger: 582505,
+              events: [
+                {
+                  contract: 'ProfileRegistry',
+                  topic: ['register_profile'],
+                  data: {
+                    address: activeDemoUser.address,
+                    name: activeDemoUser.name,
+                    initial_reputation: 100,
+                  },
+                },
+              ],
+              gas_cost_xlm: '0.0000125',
+              cpu_instructions: 18450,
+            },
+            null,
+            2
+          )
+        );
+      } else {
+        setSimOutput(
+          JSON.stringify(
+            {
+              status: 'QUERY_SUCCESS',
+              target: 'Alice Vance',
+              total_endorsements: 38,
+              aggregated_trust_weight: 4680,
+              verified_status: true,
+              role: 'Admin',
+            },
+            null,
+            2
+          )
+        );
+      }
+    }, 1000);
+  };
 
   return (
     <div className="relative overflow-hidden">
       {/* 1. Hero Section */}
-      <section className="relative min-h-[92vh] flex items-center justify-center pt-8 pb-20">
+      <section className="relative min-h-[90vh] flex items-center justify-center pt-8 pb-20">
         {/* Animated ambient backdrop glows */}
-        <div className="absolute top-[5%] left-[10%] w-[550px] h-[550px] bg-stellar-500/12 rounded-full blur-[140px] pointer-events-none animate-float" />
-        <div className="absolute bottom-[5%] right-[10%] w-[500px] h-[500px] bg-accent-orange/10 rounded-full blur-[140px] pointer-events-none animate-float" style={{ animationDelay: '3s' }} />
-        <div className="absolute top-[40%] right-[35%] w-[350px] h-[350px] bg-accent-purple/10 rounded-full blur-[120px] pointer-events-none animate-float" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute top-[8%] left-[8%] w-[580px] h-[580px] bg-stellar-500/15 rounded-full blur-[150px] pointer-events-none animate-float" />
+        <div className="absolute bottom-[5%] right-[8%] w-[520px] h-[520px] bg-accent-orange/12 rounded-full blur-[150px] pointer-events-none animate-float" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-[40%] right-[30%] w-[380px] h-[380px] bg-purple-500/12 rounded-full blur-[130px] pointer-events-none animate-float" style={{ animationDelay: '1.5s' }} />
 
         {/* Subtle grid pattern */}
         <div
@@ -58,9 +147,9 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left: Text & CTA Content (7 cols) */}
             <div className="lg:col-span-7 text-center lg:text-left space-y-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-stellar-500/15 border border-stellar-500/30 text-stellar-300 text-xs sm:text-sm font-semibold shadow-lg shadow-stellar-500/10 animate-fade-in">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-stellar-500/15 border border-stellar-500/35 text-stellar-300 text-xs sm:text-sm font-semibold shadow-lg shadow-stellar-500/10 animate-fade-in">
                 <Sparkles className="w-4 h-4 text-accent-orange animate-pulse" />
-                <span>Next-Gen Stellar Soroban Smart Contract Architecture</span>
+                <span>Level 5 Blue Belt Architecture • Stellar Soroban Protocol</span>
               </div>
 
               <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.08] animate-slide-up">
@@ -70,23 +159,25 @@ export default function LandingPage() {
               </h1>
 
               <p className="text-base sm:text-lg text-gray-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal animate-slide-up" style={{ animationDelay: '0.1s' }}>
-                Traditional resume endorsements are easily faked. Stellar SkillNet establishes a
-                <strong> Sybil-resistant on-chain reputation graph</strong> where endorsement weights
-                are mathematically scaled by the endorser&apos;s real-time reputation score via Soroban cross-contract calls.
+                Resumes and token-weighted votes are easily faked. Stellar SkillNet establishes a
+                <strong> Sybil-resistant on-chain reputation graph</strong> where endorsement power
+                is mathematically scaled by real-time trust metrics via atomic Soroban cross-contract calls.
               </p>
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2 animate-slide-up" style={{ animationDelay: '0.2s' }}>
                 <Link
                   href="/dashboard"
-                  className="btn-primary text-base px-8 py-4 w-full sm:w-auto shadow-xl shadow-stellar-500/25 group"
+                  onClick={() => soundFx.playClick()}
+                  className="btn-primary text-base px-8 py-4 w-full sm:w-auto shadow-2xl shadow-stellar-500/30 group"
                 >
                   <span>Launch dApp Dashboard</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
                   href="/analytics"
-                  className="btn-secondary text-base px-7 py-4 w-full sm:w-auto"
+                  onClick={() => soundFx.playClick()}
+                  className="btn-secondary text-base px-7 py-4 w-full sm:w-auto shadow-lg"
                 >
                   <TrendingUp className="w-5 h-5 text-accent-orange" />
                   <span>Explore Reputation Graph</span>
@@ -94,7 +185,7 @@ export default function LandingPage() {
               </div>
 
               {/* Trust Badge Strip */}
-              <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-y-2 gap-x-6 text-xs text-gray-400 font-mono">
+              <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-y-2 gap-x-6 text-xs text-gray-300 font-mono">
                 <div className="flex items-center gap-1.5 text-emerald-400">
                   <CheckCircle className="w-3.5 h-3.5" />
                   <span>Dual Contract Inter-Calling</span>
@@ -110,7 +201,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Right: Interactive Interactive Network Visualizer (5 cols) */}
+            {/* Right: Interactive Hero Network Graph (5 cols) */}
             <div className="lg:col-span-5 flex items-center justify-center">
               <InteractiveHeroGraph onSelectPeer={(peer) => setSelectedPeerForDossier(peer)} />
             </div>
@@ -119,7 +210,7 @@ export default function LandingPage() {
       </section>
 
       {/* 2. Live Network Stats Ticker Bar */}
-      <section className="py-6 border-y border-white/[0.08] bg-surface-1/70 backdrop-blur-md">
+      <section className="py-6 border-y border-white/[0.08] bg-surface-1/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {STATS.map((stat, i) => (
@@ -127,35 +218,56 @@ export default function LandingPage() {
                 <div className="text-2xl sm:text-3xl font-black gradient-text font-mono">
                   {stat.value}
                 </div>
-                <div className="text-xs text-gray-400 font-medium">{stat.label}</div>
+                <div className="text-xs text-gray-400 font-semibold uppercase tracking-wider">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 3. Interactive Trust-Weight Formula Simulator */}
+      {/* 3. Interactive Sybil Resistance Simulator */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-accent-orange/15 border border-accent-orange/30 text-accent-orange text-xs font-bold uppercase tracking-wider mb-3">
-            Sybil-Resistant Mechanics
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-accent-orange/15 border border-accent-orange/35 text-accent-orange text-xs font-bold uppercase tracking-wider mb-3">
+            <Shield className="w-3.5 h-3.5" />
+            Sybil-Resistant Math
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-            Mathematically Sound Trust Scaling
+            Why Token &amp; 1-Person Voting Fails
           </h2>
           <p className="text-gray-400 text-sm sm:text-base max-w-xl mx-auto mt-2">
-            No spam, no self-endorsements, no bots. How our Soroban contracts protect integrity.
+            Experience how our sublinear Soroban algorithms mathematically neutralize bot swarms and fake endorsements.
           </p>
         </div>
 
-        <TrustWeightCalculator />
+        <SybilSimulator />
       </section>
 
-      {/* 4. Dual-Contract Architecture Showcase (Tabbed Rust Code & Inter-Call Visualizer) */}
+      {/* 4. Interactive Trust-Weight Formula Simulator */}
       <section className="py-20 border-t border-white/[0.06] bg-surface-1/40 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold uppercase tracking-wider mb-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-stellar-500/15 border border-stellar-500/35 text-stellar-300 text-xs font-bold uppercase tracking-wider mb-3">
+              <Cpu className="w-3.5 h-3.5" />
+              Dynamic Weight Formulation
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+              Mathematically Sound Trust Scaling
+            </h2>
+            <p className="text-gray-400 text-sm sm:text-base max-w-xl mx-auto mt-2">
+              Calculate exact on-chain endorsement power based on endorser reputation, skill tier, and verification status.
+            </p>
+          </div>
+
+          <TrustWeightCalculator />
+        </div>
+      </section>
+
+      {/* 5. Dual-Contract Architecture Showcase */}
+      <section className="py-20 border-t border-white/[0.06] bg-surface-0 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/35 text-emerald-300 text-xs font-bold uppercase tracking-wider mb-3">
               <Code2 className="w-3.5 h-3.5" />
               Soroban Rust Architecture
             </div>
@@ -171,7 +283,10 @@ export default function LandingPage() {
           <div className="flex justify-center mb-8">
             <div className="p-1 bg-surface-2 border border-white/[0.08] rounded-2xl flex gap-1">
               <button
-                onClick={() => setSelectedArchTab('flow')}
+                onClick={() => {
+                  setSelectedArchTab('flow');
+                  soundFx.playClick();
+                }}
                 className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 ${
                   selectedArchTab === 'flow'
                     ? 'bg-stellar-500 text-white shadow-lg shadow-stellar-500/25'
@@ -182,7 +297,10 @@ export default function LandingPage() {
                 Cross-Contract Workflow
               </button>
               <button
-                onClick={() => setSelectedArchTab('profile_contract')}
+                onClick={() => {
+                  setSelectedArchTab('profile_contract');
+                  soundFx.playClick();
+                }}
                 className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 ${
                   selectedArchTab === 'profile_contract'
                     ? 'bg-stellar-500 text-white shadow-lg shadow-stellar-500/25'
@@ -193,7 +311,10 @@ export default function LandingPage() {
                 ProfileRegistry.rs
               </button>
               <button
-                onClick={() => setSelectedArchTab('endorsement_contract')}
+                onClick={() => {
+                  setSelectedArchTab('endorsement_contract');
+                  soundFx.playClick();
+                }}
                 className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 ${
                   selectedArchTab === 'endorsement_contract'
                     ? 'bg-stellar-500 text-white shadow-lg shadow-stellar-500/25'
@@ -209,12 +330,11 @@ export default function LandingPage() {
           {/* Architecture Content */}
           {selectedArchTab === 'flow' && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
-              {/* Step 1 */}
               <div className="glass-card-glow p-6 space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-stellar-500/20 border border-stellar-500/30 flex items-center justify-center text-stellar-300 font-bold text-lg">
                   1
                 </div>
-                <h3 className="text-lg font-bold text-white">Client Invocations & Auth</h3>
+                <h3 className="text-lg font-bold text-white">Client Invocations &amp; Auth</h3>
                 <p className="text-xs text-gray-400 leading-relaxed">
                   The endorser initiates <code>endorse_skill()</code> via Freighter or Albedo wallet. The transaction passes Soroban simulation and builds required signature trees.
                 </p>
@@ -223,7 +343,6 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Step 2 */}
               <div className="glass-card-glow p-6 space-y-4 relative">
                 <div className="w-12 h-12 rounded-2xl bg-accent-orange/20 border border-accent-orange/30 flex items-center justify-center text-accent-orange font-bold text-lg">
                   2
@@ -237,12 +356,11 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Step 3 */}
               <div className="glass-card-glow p-6 space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-accent-emerald/20 border border-accent-emerald/30 flex items-center justify-center text-emerald-300 font-bold text-lg">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 font-bold text-lg">
                   3
                 </div>
-                <h3 className="text-lg font-bold text-white">Atomic State & Weight Commit</h3>
+                <h3 className="text-lg font-bold text-white">Atomic State &amp; Weight Commit</h3>
                 <p className="text-xs text-gray-400 leading-relaxed">
                   Endorsement weights are mathematically aggregated. <code>ProfileRegistry::increment_endorsement_count()</code> is executed atomically and events stream to Soroban RPC.
                 </p>
@@ -254,35 +372,27 @@ export default function LandingPage() {
           )}
 
           {selectedArchTab === 'profile_contract' && (
-            <div className="glass-card p-6 font-mono text-xs overflow-x-auto bg-surface-1/95 border border-white/[0.08] rounded-2xl">
-              <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/[0.06] text-gray-400">
-                <span>contracts/profile_registry/src/lib.rs</span>
-                <span className="text-stellar-400">Soroban Rust Contract #1</span>
-              </div>
-              <pre className="text-gray-300 leading-relaxed">
-{`#[contractimpl]
+            <div className="glass-card-glow p-6 rounded-2xl bg-surface-1 font-mono text-xs text-gray-300 overflow-x-auto">
+              <pre className="text-[12px] leading-relaxed">
+{`#[contract]
+pub struct ProfileRegistry;
+
+#[contractimpl]
 impl ProfileRegistry {
-    /// Registers a new on-chain identity with initial base reputation (100)
-    pub fn register_profile(env: Env, owner: Address, name: String) -> Result<ProfileData, Error> {
-        owner.require_auth();
-        if Self::has_profile(env.clone(), owner.clone()) {
+    pub fn register_profile(env: Env, caller: Address, name: String) -> Result<(), Error> {
+        caller.require_auth();
+        if Self::has_profile(env.clone(), caller.clone()) {
             return Err(Error::ProfileAlreadyExists);
         }
-        let profile = ProfileData {
-            owner: owner.clone(),
+        let profile = Profile {
             name,
             role: Role::User,
             reputation: 100,
-            skill_count: 0,
             endorsement_count: 0,
         };
-        env.storage().persistent().set(&DataKey::Profile(owner.clone()), &profile);
-        env.events().publish((symbol_short!("reg_prof"), owner), profile.reputation);
-        Ok(profile)
-    }
-
-    pub fn get_reputation(env: Env, owner: Address) -> u32 {
-        Self::get_profile(env, owner).map(|p| p.reputation).unwrap_or(0)
+        env.storage().persistent().set(&DataKey::Profile(caller.clone()), &profile);
+        env.events().publish((symbol_short!("profile"), symbol_short!("registered")), caller);
+        Ok(())
     }
 }`}
               </pre>
@@ -290,42 +400,36 @@ impl ProfileRegistry {
           )}
 
           {selectedArchTab === 'endorsement_contract' && (
-            <div className="glass-card p-6 font-mono text-xs overflow-x-auto bg-surface-1/95 border border-white/[0.08] rounded-2xl">
-              <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/[0.06] text-gray-400">
-                <span>contracts/endorsement_engine/src/lib.rs</span>
-                <span className="text-accent-orange">Soroban Rust Contract #2</span>
-              </div>
-              <pre className="text-gray-300 leading-relaxed">
-{`#[contractimpl]
+            <div className="glass-card-glow p-6 rounded-2xl bg-surface-1 font-mono text-xs text-gray-300 overflow-x-auto">
+              <pre className="text-[12px] leading-relaxed">
+{`#[contract]
+pub struct EndorsementEngine;
+
+#[contractimpl]
 impl EndorsementEngine {
-    /// Executes a trust-weighted endorsement via inter-contract call
     pub fn endorse_skill(
         env: Env,
         endorser: Address,
         endorsee: Address,
-        skill: String,
-        message: String,
-    ) -> Result<Endorsement, Error> {
+        skill_name: String,
+        profile_registry: Address
+    ) -> Result<u64, Error> {
         endorser.require_auth();
-        if endorser == endorsee {
-            return Err(Error::SelfEndorsementNotAllowed);
-        }
-
-        // Cross-contract call: Query endorser reputation from ProfileRegistry
-        let profile_client = ProfileRegistryClient::new(&env, &get_profile_contract(&env)?);
-        let endorser_rep = profile_client.get_reputation(&endorser);
-        if endorser_rep == 0 {
-            return Err(Error::EndorserHasNoProfile);
-        }
-
-        // Sublinear trust weight calculation: sqrt(rep) * 8
-        let weight = calculate_trust_weight(endorser_rep);
-        let endorsement = Endorsement { endorser, endorsee, skill, weight, message };
+        // Cross-contract call to ProfileRegistry
+        let client = ProfileRegistryClient::new(&env, &profile_registry);
+        let rep = client.get_reputation(&endorser);
         
-        // Save persistent record & notify RPC
-        save_endorsement(&env, &endorsement);
-        env.events().publish((symbol_short!("endorse"), endorser), (endorsee, weight));
-        Ok(endorsement)
+        // Compute sublinear Sybil-resistant trust weight
+        let weight = ((rep as f64).sqrt() * 10.0) as u64;
+        
+        // Atomically increment endorsement count
+        client.increment_endorsement_count(&endorsee);
+        
+        env.events().publish(
+            (symbol_short!("endorse"), endorser, endorsee),
+            (skill_name, weight)
+        );
+        Ok(weight)
     }
 }`}
               </pre>
@@ -334,97 +438,128 @@ impl EndorsementEngine {
         </div>
       </section>
 
-      {/* 5. Core Platform Capabilities Grid */}
-      <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-stellar-500/15 border border-stellar-500/30 text-stellar-300 text-xs font-bold uppercase tracking-wider mb-3">
-            Core Highlights
+      {/* 6. Live Soroban Testnet Playground / Sandbox */}
+      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-accent-purple/15 border border-accent-purple/35 text-purple-300 text-xs font-bold uppercase tracking-wider mb-3">
+            <Terminal className="w-3.5 h-3.5" />
+            Interactive WASM Invocation
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-            Built for Stellar Soroban Dominance
+            Live Contract Invocation Sandbox
           </h2>
           <p className="text-gray-400 text-sm sm:text-base max-w-xl mx-auto mt-2">
-            Every feature is engineered for high throughput, cryptographic trust, and seamless user experience.
+            Simulate Soroban WASM execution, gas consumption, and emitted event payloads directly from your browser.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {FEATURES.map((feature, i) => (
-            <div key={i} className="glass-card-hover p-6 group space-y-4">
-              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                <feature.icon className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-white group-hover:text-stellar-300 transition-colors">
-                {feature.title}
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">
-                {feature.description}
-              </p>
+        <div className="glass-card-glow p-6 sm:p-8 space-y-6">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08] pb-4">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  setPlaygroundMethod('endorse');
+                  soundFx.playClick();
+                }}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                  playgroundMethod === 'endorse'
+                    ? 'bg-stellar-500 text-white shadow-md'
+                    : 'bg-surface-2 text-gray-400 hover:text-white'
+                }`}
+              >
+                endorse_skill()
+              </button>
+              <button
+                onClick={() => {
+                  setPlaygroundMethod('register');
+                  soundFx.playClick();
+                }}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                  playgroundMethod === 'register'
+                    ? 'bg-stellar-500 text-white shadow-md'
+                    : 'bg-surface-2 text-gray-400 hover:text-white'
+                }`}
+              >
+                register_profile()
+              </button>
+              <button
+                onClick={() => {
+                  setPlaygroundMethod('query');
+                  soundFx.playClick();
+                }}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                  playgroundMethod === 'query'
+                    ? 'bg-stellar-500 text-white shadow-md'
+                    : 'bg-surface-2 text-gray-400 hover:text-white'
+                }`}
+              >
+                get_profile_metrics()
+              </button>
             </div>
-          ))}
+
+            <button
+              onClick={handleSimulateInvocation}
+              disabled={simulatingInvocation}
+              className="btn-primary text-xs py-2.5 px-5"
+            >
+              <Play className="w-3.5 h-3.5" />
+              <span>{simulatingInvocation ? 'Executing on Soroban VM...' : 'Simulate & Execute'}</span>
+            </button>
+          </div>
+
+          {/* Invocation Output Console */}
+          <div className="p-5 rounded-2xl bg-surface-0 border border-white/[0.08] font-mono text-xs text-gray-300">
+            <div className="flex items-center justify-between text-gray-500 text-[11px] pb-2 border-b border-white/[0.04] mb-3">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                Soroban RPC Node: rpc-testnet.stellar.org
+              </span>
+              <span>WASM Instruction Pointer: 0x48A2</span>
+            </div>
+
+            {simulatingInvocation ? (
+              <div className="flex items-center gap-3 py-6 justify-center text-stellar-400">
+                <span className="animate-spin w-5 h-5 border-2 border-stellar-400 border-t-transparent rounded-full" />
+                <span>Simulating resource footprint and ledger auth tree...</span>
+              </div>
+            ) : simOutput ? (
+              <pre className="text-emerald-400 overflow-x-auto whitespace-pre-wrap">{simOutput}</pre>
+            ) : (
+              <div className="text-gray-500 text-center py-6">
+                Click &quot;Simulate &amp; Execute&quot; above to inspect the Soroban WASM state transition and event log.
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
-      {/* 6. Quick Leaderboard Teaser */}
-      <section className="py-20 border-t border-white/[0.06] bg-surface-1/50">
+      {/* 7. Bento Grid: Core Innovations */}
+      <section className="py-20 border-t border-white/[0.06] bg-surface-1/30 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-amber/15 border border-accent-amber/30 text-accent-amber text-xs font-bold uppercase tracking-wider mb-2">
-                On-Chain Graph Preview
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white">
-                Top Endorsed Developers
-              </h2>
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-stellar-500/15 border border-stellar-500/35 text-stellar-300 text-xs font-bold uppercase tracking-wider mb-3">
+              <Sparkles className="w-3.5 h-3.5 text-accent-orange" />
+              Core Innovations
             </div>
-            <Link href="/analytics" className="btn-secondary text-xs sm:text-sm flex items-center gap-1.5 self-start sm:self-auto">
-              <span>View Full Leaderboard & Graph</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+              Engineered for Enterprise-Grade Web3 Reputation
+            </h2>
+            <p className="text-gray-400 text-sm sm:text-base max-w-xl mx-auto mt-2">
+              Every design choice focuses on security, verifiable mathematics, and sub-second user experience.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {peers.slice(0, 3).map((peer, idx) => (
-              <div
-                key={peer.address}
-                onClick={() => setSelectedPeerForDossier(peer)}
-                className="glass-card-hover p-5 cursor-pointer group"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-stellar-500 to-accent-orange flex items-center justify-center text-lg font-bold text-white shadow-lg shadow-stellar-500/20 group-hover:scale-105 transition-transform">
-                    {peer.name.charAt(0)}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {FEATURES.map((feature, i) => (
+              <div key={i} className="glass-card-glow p-6 space-y-4 flex flex-col justify-between">
+                <div>
+                  <div
+                    className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-white mb-4 shadow-lg`}
+                  >
+                    <feature.icon className="w-6 h-6" />
                   </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-white group-hover:text-stellar-300 transition-colors">
-                      {peer.name}
-                    </h3>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-3 text-gray-300 font-medium">
-                        {peer.role}
-                      </span>
-                      <span className="text-[10px] text-gray-500 font-mono">
-                        {truncateAddress(peer.address, 6)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between text-xs py-2 border-t border-white/[0.04]">
-                  <span className="text-gray-400">Reputation Score</span>
-                  <span className="font-bold gradient-text text-sm">{peer.reputation}</span>
-                </div>
-
-                <div className="flex flex-wrap gap-1.5 mt-3">
-                  {peer.skills.slice(0, 2).map((s, sIdx) => (
-                    <span key={sIdx} className="badge badge-stellar text-[10px]">
-                      {s.name}
-                    </span>
-                  ))}
-                  {peer.skills.length > 2 && (
-                    <span className="text-[10px] text-gray-500 self-center">
-                      +{peer.skills.length - 2} more
-                    </span>
-                  )}
+                  <h3 className="text-lg font-bold text-white mb-2">{feature.title}</h3>
+                  <p className="text-xs text-gray-400 leading-relaxed">{feature.description}</p>
                 </div>
               </div>
             ))}
@@ -432,136 +567,45 @@ impl EndorsementEngine {
         </div>
       </section>
 
-      {/* 7. Bottom CTA */}
-      <section className="py-24 relative overflow-hidden text-center border-t border-white/[0.08]">
-        <div className="absolute inset-0 bg-gradient-to-b from-stellar-500/5 via-transparent to-surface-0 pointer-events-none" />
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
-          <Logo size={64} className="mx-auto animate-float" />
-          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-            Ready to Build Your On-Chain Reputation?
-          </h2>
-          <p className="text-gray-300 text-sm sm:text-base max-w-lg mx-auto">
-            Connect with Freighter, Albedo, or test immediately via our interactive Reviewer Demo mode.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-            <Link href="/dashboard" className="btn-primary text-base px-8 py-4 shadow-xl shadow-stellar-500/30">
-              Open dApp Dashboard
-              <ArrowRight className="w-5 h-5" />
-            </Link>
+      {/* 8. Call to Action Banner */}
+      <section className="py-20 relative">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="glass-card-glow p-8 sm:p-12 space-y-6 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-stellar-500/15 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent-orange/15 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold">
+              <CheckCircle2 className="w-4 h-4" />
+              Level 5 Blue Belt Ready
+            </div>
+
+            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+              Ready to Experience the Reputation Graph?
+            </h2>
+            <p className="text-gray-300 text-sm sm:text-base max-w-xl mx-auto">
+              Launch the dApp dashboard, switch between developer personas, test live endorsements, and export verifiable on-chain certificates.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <Link
+                href="/dashboard"
+                onClick={() => soundFx.playClick()}
+                className="btn-primary text-base px-8 py-4 w-full sm:w-auto shadow-2xl"
+              >
+                Launch dApp Dashboard
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link
+                href="/analytics"
+                onClick={() => soundFx.playClick()}
+                className="btn-secondary text-base px-7 py-4 w-full sm:w-auto"
+              >
+                Inspect Leaderboard
+              </Link>
+            </div>
           </div>
         </div>
       </section>
-    </div>
-  );
-}
-
-/* ----------------- Interactive Hero Network Graph ----------------- */
-function InteractiveHeroGraph({ onSelectPeer }: { onSelectPeer: (peer: any) => void }) {
-  const { peers } = useDemoStore();
-  const [activeNode, setActiveNode] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveNode((prev) => (prev + 1) % peers.length);
-    }, 3500);
-    return () => clearInterval(timer);
-  }, [peers.length]);
-
-  return (
-    <div className="relative w-full max-w-[420px] aspect-square flex items-center justify-center">
-      {/* Outer spinning ring */}
-      <div className="absolute inset-0 animate-orbit pointer-events-none">
-        <svg viewBox="0 0 420 420" className="w-full h-full">
-          <circle
-            cx="210"
-            cy="210"
-            r="190"
-            stroke="url(#hero-ring-grad)"
-            strokeWidth="1.5"
-            strokeDasharray="8 12"
-            opacity="0.35"
-          />
-          <defs>
-            <linearGradient id="hero-ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#5c7cfa" />
-              <stop offset="50%" stopColor="#ff6b35" />
-              <stop offset="100%" stopColor="#20c997" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-
-      {/* Central Brand Core */}
-      <div className="absolute z-20 flex flex-col items-center justify-center text-center p-6 rounded-full bg-surface-1/90 border-2 border-stellar-500/40 shadow-2xl backdrop-blur-xl animate-float">
-        <Logo size={52} />
-        <div className="text-[10px] font-black text-stellar-300 font-mono mt-1">SOROBAN VM</div>
-      </div>
-
-      {/* Orbiting Peer Nodes */}
-      {peers.slice(0, 5).map((peer, i) => {
-        const angle = (i * 2 * Math.PI) / 5;
-        const radius = 145;
-        const x = 210 + radius * Math.cos(angle);
-        const y = 210 + radius * Math.sin(angle);
-        const isSelected = activeNode === i;
-
-        return (
-          <div
-            key={peer.address}
-            onClick={() => onSelectPeer(peer)}
-            style={{
-              left: `${(x / 420) * 100}%`,
-              top: `${(y / 420) * 100}%`,
-              transform: 'translate(-50%, -50%)',
-            }}
-            className={`absolute z-30 cursor-pointer p-2.5 rounded-2xl backdrop-blur-xl border transition-all duration-500 ${
-              isSelected
-                ? 'bg-surface-2 border-accent-orange shadow-lg shadow-accent-orange/25 scale-110'
-                : 'bg-surface-1/80 border-white/[0.1] hover:border-stellar-400 hover:scale-105'
-            }`}
-          >
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-stellar-500 to-accent-orange flex items-center justify-center text-xs font-bold text-white shrink-0">
-                {peer.name.charAt(0)}
-              </div>
-              <div className="text-left hidden sm:block">
-                <div className="text-xs font-bold text-white leading-tight">{peer.name}</div>
-                <div className="text-[10px] text-accent-orange font-mono font-semibold">
-                  {peer.reputation} Rep
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      })}
-
-      {/* SVG Connecting Trust Lines */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
-        <defs>
-          <linearGradient id="trust-line" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#5c7cfa" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="#ff6b35" stopOpacity="0.2" />
-          </linearGradient>
-        </defs>
-        {peers.slice(0, 5).map((_, i) => {
-          const angle = (i * 2 * Math.PI) / 5;
-          const radius = 145;
-          const x = 210 + radius * Math.cos(angle);
-          const y = 210 + radius * Math.sin(angle);
-          return (
-            <line
-              key={i}
-              x1="210"
-              y1="210"
-              x2={x}
-              y2={y}
-              stroke="url(#trust-line)"
-              strokeWidth="1.5"
-              strokeDasharray={activeNode === i ? 'none' : '4 4'}
-            />
-          );
-        })}
-      </svg>
     </div>
   );
 }
@@ -577,8 +621,8 @@ const STATS = [
 const FEATURES = [
   {
     icon: Shield,
-    title: 'Sybil-Resistant Endorsements',
-    description: 'Endorsement weight is mathematically locked to the endorser’s on-chain trust score. Fake identities and wash-endorsements have zero weight.',
+    title: 'Sublinear Sybil Resistance',
+    description: 'Endorsement weight is mathematically scaled to the endorser’s on-chain trust score. Fake identities and wash-endorsements have zero weight.',
     gradient: 'from-stellar-500 to-stellar-700',
   },
   {
@@ -591,13 +635,13 @@ const FEATURES = [
     icon: Award,
     title: 'Verifiable On-Chain Credentials',
     description: 'Every skill backed by peers is permanently registered on the Stellar blockchain, generating cryptographically auditable proof certificates.',
-    gradient: 'from-accent-emerald to-teal-700',
+    gradient: 'from-emerald-500 to-teal-700',
   },
   {
     icon: Lock,
     title: 'Role-Based Access Control (RBAC)',
     description: 'Admin, Verifier, and User privilege levels manage security updates, certified badges, and contract upgrade authorization.',
-    gradient: 'from-accent-purple to-indigo-800',
+    gradient: 'from-purple-500 to-indigo-800',
   },
   {
     icon: Zap,

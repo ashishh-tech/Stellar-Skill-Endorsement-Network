@@ -434,26 +434,29 @@ export default function DashboardPage() {
             </div>
 
             {/* Reputation Progress Ring / Tier Gauge */}
-            <div className="p-5 rounded-2xl bg-surface-1/80 border border-white/[0.06] space-y-3">
+            <div className="p-5 rounded-2xl bg-surface-1/90 border border-white/[0.08] space-y-3 shadow-inner">
               <div className="flex justify-between items-center text-xs">
-                <span className="font-semibold text-gray-300 flex items-center gap-1.5">
+                <span className="font-bold text-gray-200 flex items-center gap-2">
                   <Shield className="w-4 h-4 text-accent-orange" />
-                  Reputation Level: {currentReputation > 200 ? 'Level 3 (Master)' : currentReputation > 120 ? 'Level 2 (Endorsed)' : 'Level 1 (Base)'}
+                  <span>Belt Rank:</span>
+                  <span className="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-mono text-[11px] border border-blue-500/40">
+                    {currentReputation >= 300 ? 'Level 5 • Blue Belt Master' : currentReputation >= 200 ? 'Level 4 • Purple Belt Senior' : 'Level 3 • Green Belt Verified'}
+                  </span>
                 </span>
-                <span className="font-mono font-bold gradient-text text-base">
+                <span className="font-mono font-black gradient-text text-base">
                   {currentReputation} / 500 max
                 </span>
               </div>
-              <div className="w-full bg-surface-0 h-3 rounded-full overflow-hidden p-0.5 border border-white/[0.04]">
+              <div className="w-full bg-surface-0 h-3.5 rounded-full overflow-hidden p-0.5 border border-white/[0.08]">
                 <div
-                  className="bg-gradient-to-r from-stellar-500 via-accent-orange to-accent-emerald h-full rounded-full transition-all duration-1000"
+                  className="bg-gradient-to-r from-stellar-500 via-accent-orange to-accent-emerald h-full rounded-full transition-all duration-1000 shadow-md shadow-stellar-500/30"
                   style={{ width: `${Math.min((currentReputation / 500) * 100, 100)}%` }}
                 />
               </div>
-              <div className="flex justify-between text-[10px] text-gray-500 font-mono">
+              <div className="flex justify-between text-[10px] text-gray-400 font-mono">
                 <span>100 (Base)</span>
                 <span>200 (Verified)</span>
-                <span>350 (Core Contributor)</span>
+                <span className="text-blue-300 font-bold">300 (Blue Belt)</span>
                 <span>500+ (Master)</span>
               </div>
             </div>

@@ -72,6 +72,9 @@ export function Navigation() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={() => {
+                    import('@/utils/soundEffects').then((m) => m.soundFx.playClick());
+                  }}
                   className={`nav-link flex items-center gap-2 ${
                     isActive ? 'nav-link-active' : ''
                   }`}

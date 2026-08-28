@@ -29,14 +29,16 @@ module.exports = {
           rose: '#f06595',
           cyan: '#15aabf',
           purple: '#9775fa',
+          blue: '#339af0',
+          indigo: '#7048e8',
         },
         surface: {
-          0: '#07070b',
-          1: '#0e0e16',
-          2: '#161622',
-          3: '#1e1e2d',
-          4: '#272739',
-          5: '#323249',
+          0: '#07070c',
+          1: '#0d0e17',
+          2: '#141624',
+          3: '#1c1f33',
+          4: '#252942',
+          5: '#313656',
         },
       },
       fontFamily: {
@@ -44,15 +46,17 @@ module.exports = {
         mono: ['JetBrains Mono', 'monospace'],
       },
       animation: {
-        'fade-in': 'fadeIn 0.5s ease-in-out',
+        'fade-in': 'fadeIn 0.4s ease-out',
         'slide-up': 'slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
         'slide-down': 'slideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
         'pulse-glow': 'pulseGlow 2.5s ease-in-out infinite',
-        'spin-slow': 'spin 8s linear infinite',
+        'spin-slow': 'spin 12s linear infinite',
         'ping-slow': 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite',
-        'float-slow': 'float 8s ease-in-out infinite',
+        'float-slow': 'float 7s ease-in-out infinite',
         'shimmer-fast': 'shimmer 2s ease-in-out infinite',
         'beam': 'beam 3s linear infinite',
+        'beacon': 'beacon 2s cubic-bezier(0, 0, 0.2, 1) infinite',
+        'gradient-x': 'gradientX 6s ease infinite',
       },
       keyframes: {
         fadeIn: {
@@ -60,16 +64,16 @@ module.exports = {
           '100%': { opacity: '1' },
         },
         slideUp: {
-          '0%': { transform: 'translateY(12px)', opacity: '0' },
+          '0%': { transform: 'translateY(14px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
         slideDown: {
-          '0%': { transform: 'translateY(-12px)', opacity: '0' },
+          '0%': { transform: 'translateY(-14px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
         pulseGlow: {
           '0%, 100%': { boxShadow: '0 0 20px rgba(92, 124, 250, 0.25)' },
-          '50%': { boxShadow: '0 0 45px rgba(92, 124, 250, 0.55)' },
+          '50%': { boxShadow: '0 0 45px rgba(92, 124, 250, 0.65)' },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
@@ -78,6 +82,14 @@ module.exports = {
         shimmer: {
           '0%': { transform: 'translateX(-100%)' },
           '100%': { transform: 'translateX(100%)' },
+        },
+        beacon: {
+          '0%': { transform: 'scale(1)', opacity: '0.8' },
+          '70%, 100%': { transform: 'scale(2.4)', opacity: '0' },
+        },
+        gradientX: {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
         },
       },
       backdropBlur: {

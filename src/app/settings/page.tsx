@@ -195,7 +195,48 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* 4. Friendbot Faucet Box */}
+      {/* 4. Audio & Aesthetic Customization */}
+      <div className="glass-card-glow p-6 sm:p-8 space-y-6">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400">
+            <Sliders className="w-5 h-5" />
+          </div>
+          <div>
+            <h2 className="text-base font-bold text-white">Audio &amp; Aesthetic Preferences</h2>
+            <p className="text-xs text-gray-400">Configure Web Audio procedural synthesizer and cosmic visual effects</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div className="p-4 rounded-2xl bg-surface-1/80 border border-white/[0.04] flex items-center justify-between">
+            <div>
+              <div className="font-bold text-white">Procedural Web Audio FX</div>
+              <div className="text-gray-400 text-[11px] mt-0.5">Synthesized UI clicks, beams &amp; confirmations</div>
+            </div>
+            <button
+              onClick={() => {
+                import('@/utils/soundEffects').then((m) => {
+                  m.soundFx.toggle();
+                  handleSave();
+                });
+              }}
+              className="btn-secondary text-xs px-3 py-1.5"
+            >
+              Toggle Sound
+            </button>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-surface-1/80 border border-white/[0.04] flex items-center justify-between">
+            <div>
+              <div className="font-bold text-white">Interactive Constellation Mesh</div>
+              <div className="text-gray-400 text-[11px] mt-0.5">Dynamic physics particle mesh in background</div>
+            </div>
+            <span className="badge badge-success text-[10px]">Active</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 5. Friendbot Faucet Box */}
       <div className="glass-card p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
           <h3 className="text-sm font-bold text-white">Stellar Testnet Friendbot XLM Faucet</h3>

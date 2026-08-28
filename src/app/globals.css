@@ -52,11 +52,11 @@
 
 @layer components {
   .glass-card {
-    @apply bg-surface-2/70 backdrop-blur-xl border border-white/[0.07] rounded-2xl;
+    @apply bg-surface-2/80 backdrop-blur-2xl border border-white/[0.08] rounded-2xl;
     box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.03),
-      0 12px 36px rgba(0, 0, 0, 0.45),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      0 0 0 1px rgba(255, 255, 255, 0.04),
+      0 16px 40px -8px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
   .glass-card-hover {
@@ -64,17 +64,17 @@
   }
 
   .glass-card-hover:hover {
-    @apply border-stellar-500/30;
+    @apply border-stellar-500/40 bg-surface-2/95;
     box-shadow:
-      0 0 0 1px rgba(92, 124, 250, 0.2),
-      0 16px 48px rgba(0, 0, 0, 0.55),
-      0 0 40px rgba(92, 124, 250, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    transform: translateY(-2px);
+      0 0 0 1px rgba(92, 124, 250, 0.3),
+      0 20px 50px -10px rgba(0, 0, 0, 0.7),
+      0 0 35px rgba(92, 124, 250, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    transform: translateY(-3px);
   }
 
   .glass-card-glow {
-    @apply glass-card transition-all duration-500 relative overflow-hidden;
+    @apply glass-card transition-all duration-300 relative overflow-hidden;
   }
 
   .glass-card-glow::before {
@@ -83,7 +83,7 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(92, 124, 250, 0.35), transparent 50%, rgba(255, 107, 53, 0.35));
+    background: linear-gradient(135deg, rgba(92, 124, 250, 0.4), transparent 45%, rgba(255, 107, 53, 0.4));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -93,81 +93,82 @@
 
   .glass-card-glow:hover {
     box-shadow:
-      0 0 0 1px rgba(92, 124, 250, 0.25),
-      0 20px 50px rgba(0, 0, 0, 0.6),
-      0 0 60px rgba(92, 124, 250, 0.12);
+      0 0 0 1px rgba(92, 124, 250, 0.35),
+      0 24px 60px -10px rgba(0, 0, 0, 0.75),
+      0 0 50px rgba(92, 124, 250, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
     transform: translateY(-3px);
   }
 
   .glass-panel {
-    @apply bg-surface-1/80 backdrop-blur-2xl border border-white/[0.08] rounded-2xl;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    @apply bg-surface-1/90 backdrop-blur-2xl border border-white/[0.09] rounded-2xl;
+    box-shadow: 0 24px 60px -10px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .btn-primary {
-    @apply bg-gradient-to-r from-stellar-500 via-stellar-600 to-accent-orange text-white font-semibold
+    @apply bg-gradient-to-r from-stellar-500 via-stellar-600 to-accent-orange text-white font-bold
            px-6 py-3 rounded-xl transition-all duration-300 inline-flex items-center justify-center gap-2
-           hover:shadow-lg hover:shadow-stellar-500/30 hover:scale-[1.02]
+           hover:shadow-lg hover:shadow-stellar-500/35 hover:scale-[1.02]
            active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed
-           disabled:hover:scale-100 disabled:hover:shadow-none shadow-md shadow-stellar-500/15;
+           disabled:hover:scale-100 disabled:hover:shadow-none shadow-md shadow-stellar-500/20;
   }
 
   .btn-secondary {
-    @apply bg-surface-3 text-gray-200 font-medium
-           px-5 py-2.5 rounded-xl border border-white/[0.09] transition-all duration-300 inline-flex items-center justify-center gap-2
-           hover:bg-surface-4 hover:border-stellar-500/30 hover:text-white hover:shadow-md
+    @apply bg-surface-3 text-gray-100 font-semibold
+           px-5 py-2.5 rounded-xl border border-white/[0.1] transition-all duration-300 inline-flex items-center justify-center gap-2
+           hover:bg-surface-4 hover:border-stellar-500/40 hover:text-white hover:shadow-lg hover:shadow-black/40
            active:scale-[0.98];
   }
 
   .btn-ghost {
-    @apply text-gray-400 font-medium px-4 py-2 rounded-xl transition-all duration-200 inline-flex items-center gap-2
-           hover:text-white hover:bg-white/[0.07];
+    @apply text-gray-300 font-medium px-4 py-2 rounded-xl transition-all duration-200 inline-flex items-center gap-2
+           hover:text-white hover:bg-white/[0.08];
   }
 
   .btn-accent {
-    @apply bg-gradient-to-r from-accent-orange to-accent-amber text-white font-semibold
+    @apply bg-gradient-to-r from-accent-orange to-accent-amber text-white font-bold
            px-5 py-2.5 rounded-xl transition-all duration-300 inline-flex items-center justify-center gap-2
-           hover:shadow-lg hover:shadow-accent-orange/30 hover:scale-[1.02] active:scale-[0.98];
+           hover:shadow-lg hover:shadow-accent-orange/35 hover:scale-[1.02] active:scale-[0.98];
   }
 
   .input-field {
-    @apply w-full bg-surface-1/90 border border-white/[0.1] rounded-xl px-4 py-3
+    @apply w-full bg-surface-1/95 border border-white/[0.12] rounded-xl px-4 py-3
            text-gray-100 placeholder-gray-500 transition-all duration-200
-           focus:outline-none focus:border-stellar-400 focus:ring-2 focus:ring-stellar-500/20
+           focus:outline-none focus:border-stellar-400 focus:ring-2 focus:ring-stellar-500/25
            focus:bg-surface-2;
   }
 
   .badge {
     @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold
-           border transition-colors duration-200;
+           border transition-all duration-200;
   }
 
   .badge-stellar {
-    @apply badge bg-stellar-500/15 text-stellar-300 border-stellar-500/30;
+    @apply badge bg-stellar-500/15 text-stellar-300 border-stellar-500/35 shadow-sm shadow-stellar-500/10;
   }
 
   .badge-success {
-    @apply badge bg-emerald-500/15 text-emerald-300 border-emerald-500/30;
+    @apply badge bg-emerald-500/15 text-emerald-300 border-emerald-500/35 shadow-sm shadow-emerald-500/10;
   }
 
   .badge-warning {
-    @apply badge bg-amber-500/15 text-amber-300 border-amber-500/30;
+    @apply badge bg-amber-500/15 text-amber-300 border-amber-500/35 shadow-sm shadow-amber-500/10;
   }
 
   .badge-danger {
-    @apply badge bg-rose-500/15 text-rose-300 border-rose-500/30;
+    @apply badge bg-rose-500/15 text-rose-300 border-rose-500/35 shadow-sm shadow-rose-500/10;
   }
 
   .badge-purple {
-    @apply badge bg-purple-500/15 text-purple-300 border-purple-500/30;
+    @apply badge bg-purple-500/15 text-purple-300 border-purple-500/35 shadow-sm shadow-purple-500/10;
   }
 
   .badge-cyan {
-    @apply badge bg-cyan-500/15 text-cyan-300 border-cyan-500/30;
+    @apply badge bg-cyan-500/15 text-cyan-300 border-cyan-500/35 shadow-sm shadow-cyan-500/10;
   }
 
   .section-title {
-    @apply text-2xl sm:text-3xl font-bold text-white tracking-tight;
+    @apply text-2xl sm:text-3xl font-extrabold text-white tracking-tight;
   }
 
   .gradient-text {
@@ -180,13 +181,18 @@
            bg-clip-text text-transparent;
   }
 
+  .gradient-text-stellar {
+    @apply bg-gradient-to-r from-cyan-300 via-stellar-400 to-purple-400
+           bg-clip-text text-transparent;
+  }
+
   .nav-link {
-    @apply text-gray-400 hover:text-white transition-colors duration-200 text-sm font-medium
-           px-3.5 py-2 rounded-xl hover:bg-white/[0.06];
+    @apply text-gray-300 hover:text-white transition-all duration-200 text-sm font-medium
+           px-3.5 py-2 rounded-xl hover:bg-white/[0.07];
   }
 
   .nav-link-active {
-    @apply text-white bg-stellar-500/15 border border-stellar-500/30 text-stellar-300 font-semibold;
+    @apply text-white bg-stellar-500/20 border border-stellar-500/40 text-stellar-300 font-semibold shadow-sm shadow-stellar-500/15;
   }
 
   .stat-card {
