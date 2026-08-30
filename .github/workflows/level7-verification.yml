@@ -20,10 +20,10 @@ jobs:
           targets: wasm32-unknown-unknown
 
       - name: Run Cargo Test Suite (20 Tests)
-        run: cargo test --workspace --verbose
+        run: cargo test
 
       - name: Compile Optimized WASM Bytecode
-        run: cargo build --workspace --target wasm32-unknown-unknown --release
+        run: cargo build --target wasm32-unknown-unknown --release
 
   verify-frontend:
     name: Next.js 15 Frontend & Services Test Suite
@@ -39,13 +39,13 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
       - name: Typecheck TypeScript
-        run: npx tsc --noEmit
+        run: npm run typecheck
 
       - name: Run Vitest Unit Tests (12 Tests)
-        run: npm run test
+        run: npm test
 
       - name: Build Next.js Production Bundle
         run: npm run build
