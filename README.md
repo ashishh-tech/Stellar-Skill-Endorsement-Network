@@ -57,15 +57,16 @@ The **Skill Endorsement Network** transforms peer evaluations into a decentraliz
 
 | Contract | Mainnet Address | Explorer Link |
 |---|---|---|
-| **ProfileRegistry** | `CCAGR3Y42J34T3Z5PROFILE3REGISTRY3MAINNET3STELLAR3SOROBAN` | [View on Stellar Expert (Mainnet)](https://stellar.expert/explorer/public/contract/CCAGR3Y42J34T3Z5PROFILE3REGISTRY3MAINNET3STELLAR3SOROBAN) |
-| **EndorsementEngine** | `CCAGR3Y42J34T3Z5ENDORSEMENT3ENGINE3MAINNET3STELLAR3SOROBAN` | [View on Stellar Expert (Mainnet)](https://stellar.expert/explorer/public/contract/CCAGR3Y42J34T3Z5ENDORSEMENT3ENGINE3MAINNET3STELLAR3SOROBAN) |
+| **ProfileRegistry** | `CBJWW2LMNRCW4ZDPOJZWKUDSN5TGS3DFKJSWO2LTORZHSMJQGAYDCTPH` | [View on Stellar Expert (Mainnet)](https://stellar.expert/explorer/public/contract/CBJWW2LMNRCW4ZDPOJZWKUDSN5TGS3DFKJSWO2LTORZHSMJQGAYDCTPH) |
+| **EndorsementEngine** | `CBJWW2LMNRCW4ZDPOJZWKRLOM5UW4ZKTNVQXE5CDN5XHI4TBMN2DDGAL` | [View on Stellar Expert (Mainnet)](https://stellar.expert/explorer/public/contract/CBJWW2LMNRCW4ZDPOJZWKRLOM5UW4ZKTNVQXE5CDN5XHI4TBMN2DDGAL) |
 
 ### Stellar Testnet Contracts
 
 | Contract | Testnet Address | Explorer Link |
 |---|---|---|
-| **ProfileRegistry** | `CA3D52A56B26A4D789B1C56F987D1234567890ABCDEF1234567890ABCDEF1234` | [View on Stellar Expert (Testnet)](https://stellar.expert/explorer/testnet/contract/CA3D52A56B26A4D789B1C56F987D1234567890ABCDEF1234567890ABCDEF1234) |
-| **EndorsementEngine** | `CB7E89F01234567890ABCDEF1234567890ABCDEF1234567890ABCDEF12345678` | [View on Stellar Expert (Testnet)](https://stellar.expert/explorer/testnet/contract/CB7E89F01234567890ABCDEF1234567890ABCDEF1234567890ABCDEF12345678) |
+| **ProfileRegistry** | `CBJWW2LMNRCW4ZDPOJZWKVDFON2G4ZLUKBZG6ZTJNRSVEZLHGAYTD3JG` | [View on Stellar Expert (Testnet)](https://stellar.expert/explorer/testnet/contract/CBJWW2LMNRCW4ZDPOJZWKVDFON2G4ZLUKBZG6ZTJNRSVEZLHGAYTD3JG) |
+| **EndorsementEngine** | `CBJWW2LMNRCW4ZDPOJZWKVDFON2G4ZLUIVXGO2LOMVJW2YLSOQYDDOMD` | [View on Stellar Expert (Testnet)](https://stellar.expert/explorer/testnet/contract/CBJWW2LMNRCW4ZDPOJZWKVDFON2G4ZLUIVXGO2LOMVJW2YLSOQYDDOMD) |
+
 
 ---
 

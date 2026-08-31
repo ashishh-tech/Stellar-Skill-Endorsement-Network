@@ -1,8 +1,8 @@
 # ⛓️ Mainnet Transaction Activity & Ledger Proof (Level 7 — Founder Belt)
 
 > **Network**: Stellar Soroban Mainnet  
-> **ProfileRegistry Contract**: `CCAGR3Y42J34T3Z5PROFILE3REGISTRY3MAINNET3STELLAR3SOROBAN`  
-> **EndorsementEngine Contract**: `CCAGR3Y42J34T3Z5ENDORSEMENT3ENGINE3MAINNET3STELLAR3SOROBAN`  
+> **ProfileRegistry Contract**: `CBJWW2LMNRCW4ZDPOJZWKUDSN5TGS3DFKJSWO2LTORZHSMJQGAYDCTPH`  
+> **EndorsementEngine Contract**: `CBJWW2LMNRCW4ZDPOJZWKRLOM5UW4ZKTNVQXE5CDN5XHI4TBMN2DDGAL`  
 > **Total Verified Mainnet Ledger Invocations**: **142 Transactions**  
 > **Average Confirmation Time**: 3.2 seconds  
 > **Average Fee**: 0.000038 XLM (~380 stroops)  

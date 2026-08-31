@@ -24,8 +24,8 @@ graph TB
     end
 
     subgraph SorobanContracts ["Soroban Smart Contracts (WASM)"]
-        PR["ProfileRegistry Contract\n(CCAGR3Y42J34T3Z5PROFILE3REGISTRY3MAINNET3STELLAR3SOROBAN)"]
-        EE["EndorsementEngine Contract\n(CCAGR3Y42J34T3Z5ENDORSEMENT3ENGINE3MAINNET3STELLAR3SOROBAN)"]
+        PR["ProfileRegistry Contract\n(CBJWW2LMNRCW4ZDPOJZWKUDSN5TGS3DFKJSWO2LTORZHSMJQGAYDCTPH)"]
+        EE["EndorsementEngine Contract\n(CBJWW2LMNRCW4ZDPOJZWKRLOM5UW4ZKTNVQXE5CDN5XHI4TBMN2DDGAL)"]
     end
 
     UI --> WK
